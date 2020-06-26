@@ -7,6 +7,7 @@ import QuestionList from './QuestionList'
 import ProgressBox from './ProgressBox'
 import Results from './Results'
 import Lecture from './Lecture'
+import HelpBox from './HelpBox'
 
 class App extends Component {
 
@@ -142,15 +143,21 @@ class App extends Component {
                   }
           ],
           "score":0,
-          "current":1
+          "current":1,
+          "hintCounter":0
         }
     }
 
     setCurrent(current){
         this.setState({current});
     }
+
     setScore(score){
         this.setState({score});
+    }
+
+    setHintCounter(hintCounter){
+        this.setState({hintCounter});
     }
 
     setShowHelp(showHelp){
@@ -222,7 +229,7 @@ class App extends Component {
 
     clickButton = (button) => {
         console.log('button clicked:')
-        if(button == "Pre-Test"){
+        if(button == "Quiz"){
             var currentDate = new Date()
         }
         this.setState({
@@ -284,11 +291,11 @@ class App extends Component {
     }
 
     render() {
-      if(this.state.renderView == "Pre-Test"){
-          console.log("RenderView: Pre-Test")
+      if(this.state.renderView == "Quiz"){
+          console.log("RenderView: Quiz")
 
           if(this.state.current > this.state.questions.length){
-                console.log("RenderView: result view")
+                console.log("RenderView: Quiz result view")
                 var results = <Results {...this.state} />;
                 var progressbox='';
                 var message = `You got, ${this.state.score}, correct answers out of, ${this.state.questions.length}, questions`;
@@ -300,19 +307,42 @@ class App extends Component {
 
                 const currentQuestion = this.state.questions.filter(question => question.id === this.state.current)
 
-                var help = "The correct answer is: Option "+ currentQuestion[0].correct
-                console.log(help)
                 if (this.state.showHelp){
-                    var content = help
+                    if (this.state.hintCounter == 0){
+                        var help = "So here is the hint: "+ currentQuestion[0].hintone
+                    } else if (this.state.hintCounter == 1) {
+                        var help = "So here is the hint: "+ currentQuestion[0].hinttwo
+                    } else {
+                        var help = "So here is the hint: "+ currentQuestion[0].hintthree
+                    }
+                    console.log(help)
+                    this.state.hintCounter = this.state.hintCounter+1
+                    var helpBox = <HelpBox {...this.state} help={help}/>
                 }
-                var question = <QuestionList {...this.state} setCurrent={this.setCurrent.bind(this)} setScore={this.setScore.bind(this)} setShowHelp={this.setShowHelp.bind(this)} />;
+                var question = <QuestionList {...this.state} setCurrent={this.setCurrent.bind(this)} setScore={this.setScore.bind(this)} setShowHelp={this.setShowHelp.bind(this)} setHintCounter={this.setHintCounter.bind(this)} />;
 
           }
 
       } else if(this.state.renderView == "Lecture") {
                   var content = <Lecture {...this.state} />;
-      } else if(this.state.renderView == "Quiz") {
-            var content = "Quiz goes here";
+      } else if(this.state.renderView == "Pre-Test") {
+            console.log("RenderView: Pre-Test")
+
+              if(this.state.current > this.state.questions.length){
+                    console.log("RenderView: Pre-Test result view")
+                    var results = <Results {...this.state} />;
+                    var progressbox='';
+                    var message = `You got, ${this.state.score}, correct answers out of, ${this.state.questions.length}, questions`;
+                    var scorebutton = <div><Button key="Check Score" label="Check Score" onClick={() => this.sendMessage(message)} speaking={this.state.speaking} style="info"/></div>;
+              }
+              else{
+                    var progressbox = <ProgressBox {...this.state} />
+                    var results='';
+
+                    const currentQuestion = this.state.questions.filter(question => question.id === this.state.current)
+                    var question = <QuestionList {...this.state} setCurrent={this.setCurrent.bind(this)} setScore={this.setScore.bind(this)} setShowHelp={this.setShowHelp.bind(this)} setHintCounter={this.setHintCounter.bind(this)}/>;
+
+              }
       } else if(this.state.renderView == "Register") {
             var content = this.state.inputFields.map((label) =>
                 <Input key={label} label={label} onSave={this.variableSet} speaking={this.state.speaking}/>)
@@ -324,20 +354,21 @@ class App extends Component {
 
       return (
           <Grid>
-            <Row className={"show-grid"}>
+            <Row className={"show-grid"} height="60">
                 <Col sm={12}>
-                    <Navbar>
+                    <Navbar bg="light">
                       <Navbar.Header>
                         <Navbar.Brand>
-                          <a href="#home">Tutor App</a>
+                          <img alt="" src="assets/img/robot.webp" width="40" height="40" className="d-inline-block align-top"/>
+                          {' '}
+                            Social Robot Tutor
                         </Navbar.Brand>
                       </Navbar.Header>
                     </Navbar>
                 </Col>
             </Row>
             <Row className={"show-grid"}>
-                <Col sm={4}>
-
+                <Col sm={3}>
                     <ButtonGroup vertical>
                     <div className="well">
                     { this.state.buttons.map((label) =>
@@ -345,9 +376,8 @@ class App extends Component {
                     )}
                     </div>
                     </ButtonGroup>
-
                 </Col>
-                <Col sm={8}>
+                <Col sm={9}>
                     <div className="well">
                         {welcomeText}
                         {progressbox}
@@ -355,7 +385,9 @@ class App extends Component {
                         {results}
                         {content}
                         {scorebutton}
+
                     </div>
+                    {helpBox}
                 </Col>
              </Row>
              <Row className={"show-grid"}>

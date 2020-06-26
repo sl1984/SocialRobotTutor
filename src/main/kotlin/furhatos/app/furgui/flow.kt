@@ -53,13 +53,13 @@ val GUIConnected = state(NoGUI) {
         val data = it.get("data")
         var text = ""
         if (data == "Pre-Test") {
-            //text = ("This is the initial test, which will check your knowledge of the subject. Best of Luck")
-            call(PreTest)
+            val text = ("Welcome! This is the initial test, which will check your knowledge of the subject. Best of Luck")
+            furhat.say(text)
+            //call(PreTest)
         } else if (data == "Lecture") {
             text = ("Lets start with the Lecture session")
         } else if (data == "Quiz") {
-            text = ("This is the final quiz. If you need any help to solve the problems, then please ask me." +
-                    " I can provide you useful hints and help")
+            call(Quiz)
         } else if (data == "Register") {
             text = ("Please enter the 3 digit registration number and then click the save button")
         }else {
@@ -112,9 +112,9 @@ val GUIConnected = state(NoGUI) {
         val eventType = data.getString("event_type")
         val message = data.getString("message")
 
-        if (eventType == "PRETESTSTARTED") {
-            call(PreTest)
-        }
+        //if (eventType == "PRETESTSTARTED") {
+        //    call(PreTest)
+        //}
 
         furhat.say(message ?: "Something went wrong")
 
@@ -204,6 +204,90 @@ val PreTestQuestion = state(Interaction) {
         println("PreTestQuestion state - Submit Answer -  Counter: $counter")
         val data = it.get("data").toString()
         println("PreTestQuestion state - Submit Answer -  Question No : $data")
+        // Terminate when user submits the answer
+        terminate()
+    }
+
+}
+
+val Quiz = state {
+
+    onEntry {
+        println("Quiz state - start")
+        val text = ("This is the final quiz. If you need any help to solve the problems, then please ask me." +
+                " I can provide you useful hints and help")
+        furhat.say(text)
+
+        call(QuizQuestion)
+        println("Quiz state - after 1st question")
+
+    }
+
+    // Notification from GUI to Furhat
+    onEvent(NOTIFICATION) {
+        val data = it.get("data").toString()
+        println("Quiz state - Next Question -  Question No : $data")
+
+        // Hardcoded value of 6 to exit from this loop
+        if (data?.toInt() > 5) {
+            println("Terminate from Quiz state")
+            terminate()
+        } else {
+            // Next question notification
+            println("Quiz state - Go to next question")
+            call(QuizQuestion)
+            println("Quiz state - after question 2 onwards")
+
+        }
+    }
+
+}
+
+
+val QuizQuestion = state(Interaction) {
+
+    var counter = 0
+
+    onEntry {
+        println("QuizQuestion state")
+    }
+
+    onTime(delay=20000) {
+        counter = 1
+        furhat.ask("Do you need any help?", timeout = 3000)
+    }
+
+    onTime(delay=40000) {
+        counter = 2
+        furhat.ask("Do you need any help?", timeout = 3000)
+    }
+
+    onTime(delay=60000) {
+        counter = 3
+        furhat.ask("Do you need any help?", timeout = 3000)
+    }
+
+    onResponse<No> {
+        println("QuizQuestion state - NO - Counter: $counter")
+        furhat.say("Okay! Help No ")
+    }
+
+    onResponse<Yes> {
+        println("QuizQuestion state - YES  - Counter: $counter")
+        send(HELPTEXT)
+        furhat.say("Check your help box to see the hints")
+    }
+
+    onNoResponse { // Catches silence
+        println("QuizQuestion state - NO Response  - Counter: $counter")
+        furhat.say("I didn't hear anything")
+    }
+
+    // Notification from GUI to Furhat
+    onEvent(NOTIFICATION) {
+        println("QuizQuestion state - Submit Answer -  Counter: $counter")
+        val data = it.get("data").toString()
+        println("QuizQuestion state - Submit Answer -  Question No : $data")
         // Terminate when user submits the answer
         terminate()
     }

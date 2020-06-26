@@ -10,12 +10,12 @@ class Button extends Component {
   }
 
   render() {
-    let {label, speaking, onClick, style} = this.props
+    let {label, speaking, onClick, style, bsSize} = this.props
 
     return (
-      <Col className={"buttonContainer"}>
         <BootstrapButton
             bsStyle={style}
+            bsSize={bsSize}
             key={label}
             className={`button`}
             onClick={() => { onClick(label) }}
@@ -23,7 +23,6 @@ class Button extends Component {
         >
           { label }
         </BootstrapButton>
-      </Col>
     )
   }
 }
