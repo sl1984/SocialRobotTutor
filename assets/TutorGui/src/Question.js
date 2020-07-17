@@ -57,7 +57,7 @@ class Question extends Component{
 
     return(
       <div>
-        <h3>{question.text}</h3>
+        <h4><b>{question.text}</b></h4>
         <hr/>
         <ul className="list-group">
           {
@@ -72,8 +72,8 @@ class Question extends Component{
         </ul>
         <div>
             <ButtonToolbar className="justify-content-between">
-            <Button key="Submit" label="Submit" onClick={() => this.clickButton(question.id, "Submit")} speaking={this.state.speaking} style="info" bsSize="xsmall"/>
-            <Button key="Skip" label="Skip" onClick={() => this.clickButton(question.id, "Skip")} speaking={this.state.speaking} style="info" bsSize="xsmall"/>
+            <Button key="Submit" label="Submit" onClick={() => this.clickButton(question.id, "Submit")} speaking={this.state.speaking} style="info" bsSize="small"/>
+            <Button key="Skip" label="Skip" onClick={() => this.clickButton(question.id, "Skip")} speaking={this.state.speaking} style="info" bsSize="small"/>
             </ButtonToolbar>
         </div>
       </div>

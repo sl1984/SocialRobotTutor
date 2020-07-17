@@ -9,6 +9,7 @@ import Results from './Results'
 import Lecture from './Lecture'
 import HelpBox from './HelpBox'
 
+
 class App extends Component {
 
     constructor(props) {
@@ -17,6 +18,7 @@ class App extends Component {
           "speaking": false,
           "showHelp": false,
           "buttons": [],
+          "screen":[],
           "renderView": "",
           "inputFields": [],
           "preTestStartTime": "",
@@ -148,6 +150,8 @@ class App extends Component {
         }
     }
 
+
+
     setCurrent(current){
         this.setState({current});
     }
@@ -182,20 +186,28 @@ class App extends Component {
 
     componentDidMount() {
 
+
         // Needed to access "this" inside our callback
         const INSTANCE = this;
 
         // Connecting to our skill and subscribing to events
         Furhat(function (furhat) {
 
-            // Our DataDelivery event is getting no custom name and hence gets it's full class name as event name.
+            // subscribes to DataDelivery event.
             furhat.subscribe('furhatos.app.furgui.DataDelivery', function (data) {
                 INSTANCE.setState({
                     ...this.state,
                     buttons: data.buttons,
                     inputFields: data.inputFields
                 })
-                console.log('recieved event: ', data)
+            })
+
+            // subscribes to ScreenDelivery event.
+            furhat.subscribe('furhatos.app.furgui.ScreenDelivery', function (data) {
+                INSTANCE.setState({
+                    ...this.state,
+                    screen: data.screen,
+                })
             })
 
             // This event contains to data so we defined it inline in the flow
@@ -204,7 +216,6 @@ class App extends Component {
                     ...this.state,
                     speaking: false
                 })
-                console.log('recieved event: Speech Done')
             })
 
             // This event contains to data so we defined it inline in the flow
@@ -213,7 +224,6 @@ class App extends Component {
                     ...this.state,
                     showHelp: true
                 })
-                console.log('recieved event: HelpText')
             })
 
             // Method that we can access outside of this callback, for sending
@@ -222,16 +232,13 @@ class App extends Component {
                 event_name: data.event_name,
                 data: data.data
               })
-              console.log('send event:', data)
             }
         })
     }
 
     clickButton = (button) => {
-        console.log('button clicked:')
-        if(button == "Quiz"){
-            var currentDate = new Date()
-        }
+        console.log("button clicked:" +button)
+
         this.setState({
             ...this.state,
             speaking: true,
@@ -241,6 +248,12 @@ class App extends Component {
             preTestAnswerDelay: currentDate
 
         })
+
+        if(button == "Quiz"){
+            var currentDate = new Date()
+            this.restartQuiz()
+        }
+
         this.sendEvent({
           event_name: "ClickButton",
           data: button
@@ -288,6 +301,12 @@ class App extends Component {
               message
           }
         })
+    }
+
+    restartQuiz = () => {
+        console.log('Restarting Quiz')
+        this.setCurrent(1)
+        this.setScore(0)
     }
 
     render() {
@@ -354,14 +373,13 @@ class App extends Component {
 
       return (
           <Grid>
-            <Row className={"show-grid"} height="60">
+            <Row className={"show-grid"} height="40">
                 <Col sm={12}>
                     <Navbar bg="light">
                       <Navbar.Header>
                         <Navbar.Brand>
-                          <img alt="" src="assets/img/robot.webp" width="40" height="40" className="d-inline-block align-top"/>
-                          {' '}
-                            Social Robot Tutor
+                          <img alt="" src="assets/img/robot.webp" width="20" height="20" className="d-inline-block align-top"/>
+                          Social Robot Tutor
                         </Navbar.Brand>
                       </Navbar.Header>
                     </Navbar>

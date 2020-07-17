@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { Grid, Row, Col, Nav, NavItem} from 'react-bootstrap'
 
-
 class Lecture extends Component{
   constructor(props) {
           super(props)
@@ -24,14 +23,20 @@ class Lecture extends Component{
         var content = "In an inertial frame of reference, an object either remains at rest or continues to move at a constant velocity, unless acted upon by a force"
     }
 
+    var src = `assets/img/${this.props.screen}`
+    var screen = <img alt="Isaac Newton" width="600" height="400" className="align-right" src={src}/>
+
+
+
     return(
 
             <Grid>
               <Row>
                 <Col sm={7}><h4><b>Newton's Laws of Motion</b></h4></Col>
-                <Col sm={1}><img alt="Isaac Newton" width="100" height="100" className="align-right" src="assets/img/newton.webp"/>
+                <Col sm={1}><img alt="Isaac Newton" width="80" height="50" className="align-right" src="assets/img/newton.webp"/>
                 </Col>
               </Row>
+              {/*
               <Row>
                 <Col sm={8}>
                 <Nav bsStyle="tabs"  activeKey="{eventKey}" onSelect={k => this.handleSelect(k)}>
@@ -49,9 +54,11 @@ class Lecture extends Component{
                 <br/>
                 </Col>
               </Row>
+
+              */}
               <Row>
                 <Col sm={8}>
-                {content}
+                    {screen}
                 </Col>
               </Row>
             </Grid>

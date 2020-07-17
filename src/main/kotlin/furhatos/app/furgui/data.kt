@@ -12,3 +12,4 @@ val inputFieldData = mutableMapOf<String, (String) -> String>(
     "Registration Number" to { ID -> "Your unique registration Number is $ID" }
 )
 
+
