@@ -19,8 +19,8 @@ val Idle : State = state {
         users to enter.
      */
     init {
-        furhat.setTexture("male")
-        furhat.setVoice(Language.ENGLISH_US, "Matthew")
+        furhat.setTexture("female")
+        furhat.setVoice(Language.ENGLISH_US, "Amy")
         if (users.count > 0) {
             furhat.attend(users.random)
             goto(NoGUI)

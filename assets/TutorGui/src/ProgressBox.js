@@ -7,7 +7,7 @@ class ProgressBox extends Component{
 
     return(
       <div>
-        <div>Progress: <ProgressBar now={percent} label={`${percent}%`} /></div>
+        <div><b>Progress</b><ProgressBar now={percent} label={`${percent}%`} /></div>
       </div>
       )
   }

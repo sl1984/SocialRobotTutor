@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Button from './Button'
+import { ButtonGroup, ButtonToolbar } from 'react-bootstrap'
 
 class Question extends Component{
 
@@ -17,41 +18,46 @@ class Question extends Component{
         console.log('setSelectedAns - Selected Answer Option is:'+selectedAns)
   }
 
-  clickButton = (message) => {
+  clickButton = (questionid, label) => {
       console.log('Submitted Answer Option - Button clicked:')
-      const {setCurrent, setScore, question, setShowHelp} = this.props;
+      const {setCurrent, setScore, question, setShowHelp, setHintCounter} = this.props;
 
       if(this.state.selectedAns == question.correct){
             console.log('clickButton - Selected Answer Option is:'+this.state.selectedAns)
             setScore(this.props.score+1);
+      } else {
+        console.log('clickButton - Selected Answer Option is wrong:'+this.state.selectedAns)
       }
       setCurrent(this.props.current+1);
       setShowHelp(false);
+      setHintCounter(0)
 
 
-      //ws://192.168.1.10:8080/api
-      let socket = new window.WebSocket("ws://192.168.1.10:8080/api");
+      if (this.props.renderView == "Quiz"){
+          //ws://192.168.1.10:8080/api
+          let socket = new window.WebSocket("ws://192.168.1.10:8080/api");
 
-      const event1 = { event_name: "Notification", data: question.id };
-      const event2 = { event_name: "Notification", data: question.id+1 };
+          const event1 = { event_name: "Notification", data: question.id };
+          const event2 = { event_name: "Notification", data: question.id+1 };
 
-      socket.onopen = function(e) {
-        console.log("[open] Connection established");
-        console.log("Sending to server");
-        socket.send(JSON.stringify(event1));
-        socket.send(JSON.stringify(event2));
-        socket.close(1000, "Work complete");
-      };
+          socket.onopen = function(e) {
+            console.log("Socket Connection established");
+            console.log("Sending to furhat");
+            socket.send(JSON.stringify(event1));
+            socket.send(JSON.stringify(event2));
+            socket.close(1000, "Work complete");
+            console.log("Socket Connection closed");
+          };
+      }
 
   }
 
   render(){
     const {question} = this.props;
-    var help = "The correct answer is: Option "+ question.correct
 
     return(
       <div>
-        <h3>{question.text}</h3>
+        <h4><b>{question.text}</b></h4>
         <hr/>
         <ul className="list-group">
           {
@@ -64,7 +70,12 @@ class Question extends Component{
             })
           }
         </ul>
-        <Button key="Submit Answer" label="Submit Answer" onClick={() => this.clickButton(question.id)} speaking={this.state.speaking} style="info"/>
+        <div>
+            <ButtonToolbar className="justify-content-between">
+            <Button key="Submit" label="Submit" onClick={() => this.clickButton(question.id, "Submit")} speaking={this.state.speaking} style="info" bsSize="small"/>
+            <Button key="Skip" label="Skip" onClick={() => this.clickButton(question.id, "Skip")} speaking={this.state.speaking} style="info" bsSize="small"/>
+            </ButtonToolbar>
+        </div>
       </div>
       )
   }
