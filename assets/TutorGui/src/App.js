@@ -328,11 +328,11 @@ class App extends Component {
 
                 if (this.state.showHelp){
                     if (this.state.hintCounter == 0){
-                        var help = "So here is the hint: "+ currentQuestion[0].hintone
+                        var help = "Hint 1) "+currentQuestion[0].hintone
                     } else if (this.state.hintCounter == 1) {
-                        var help = "So here is the hint: "+ currentQuestion[0].hinttwo
+                        var help = "Hint 1) "+currentQuestion[0].hintone + "***** Hint 2) "+ currentQuestion[0].hinttwo
                     } else {
-                        var help = "So here is the hint: "+ currentQuestion[0].hintthree
+                        var help = "Hint 1) "+currentQuestion[0].hintone + "***** Hint 2) "+ currentQuestion[0].hinttwo
                     }
                     console.log(help)
                     this.state.hintCounter = this.state.hintCounter+1
@@ -378,7 +378,7 @@ class App extends Component {
                     <Navbar bg="light">
                       <Navbar.Header>
                         <Navbar.Brand>
-                          <img alt="" src="assets/img/robot.webp" width="20" height="20" className="d-inline-block align-top"/>
+                          <img alt="" src="assets/img/newton.webp" width="20" height="20" className="d-inline-block align-top"/>
                           Social Robot Tutor
                         </Navbar.Brand>
                       </Navbar.Header>
@@ -411,7 +411,7 @@ class App extends Component {
              <Row className={"show-grid"}>
                 <Col sm={12}>
                     <div className="well">
-                    <h6>"Copyright here"</h6>
+                    <h6>"Copyright 2020 Sethu Lekshmy"</h6>
                     </div>
                 </Col>
             </Row>
