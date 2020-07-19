@@ -216,9 +216,18 @@ val Quiz = state {
 
     onEntry {
         println("Quiz state - start")
-        val text = ("This is the final quiz. If you need any help to solve the problems, then please ask me." +
-                " I can provide you useful hints and help")
-        furhat.say(text)
+
+        val textq1 = utterance {
+            +"Let's do some practise test."
+            +Gestures.Smile
+            +delay(1000)
+            +"This will help in assessing your understanding of Newton's First and Second Laws of Motion"
+            +delay(2000)
+            +"I will watch your progress and may offer help and useful hints for solving the problem."
+            +delay(5000)
+        }
+
+        furhat.say(textq1)
 
         call(QuizQuestion)
         println("Quiz state - after 1st question")
@@ -254,20 +263,20 @@ val QuizQuestion = state(Interaction) {
         println("QuizQuestion state")
     }
 
-    onTime(delay=20000) {
+    onTime(delay=30000) {
         counter = 1
-        furhat.ask("Do you need any help?", timeout = 3000)
-    }
-
-    onTime(delay=40000) {
-        counter = 2
-        furhat.ask("Do you need any help?", timeout = 3000)
+        furhat.ask("Do you need any help?", timeout = 10000)
     }
 
     onTime(delay=60000) {
-        counter = 3
-        furhat.ask("Do you need any help?", timeout = 3000)
+        counter = 2
+        furhat.ask("Do you need any help?", timeout = 10000)
     }
+
+    //onTime(delay=15000) {
+    //    counter = 3
+    //    furhat.ask("Do you need any help?", timeout = 3000)
+    //}
 
     onResponse<No> {
         println("QuizQuestion state - NO - Counter: $counter")
@@ -740,8 +749,85 @@ val LectureFirstLaw = state(Interaction) {
 
         furhat.say(session_fl_planet)
 
+        call(FirstLawQuestionOne)
+
         terminate()
 
+    }
+
+}
+
+val FirstLawQuestionOne = state(Interaction) {
+
+    onEntry {
+        println("Lecture - FirstLawQuestionOne")
+
+        //
+        val fl_question1 = listOf("fl_question1.gif")
+        send(ScreenDelivery(screen = fl_question1))
+
+        val session2_fl_question1 = utterance {
+            +"Here is your first question related to Newton's First Law of Motion."
+            +delay(1000)
+            +"You need to tell whether the following statement is true of false."
+            +delay(2000)
+            +"If the net force on a body is zero, then its velocity will not change"
+        }
+
+        furhat.ask(session2_fl_question1, timeout = 30000)
+
+
+    }
+
+    //onTime(delay=60000) {
+    //    furhat.ask("Do you need any help?", timeout = 5000)
+    //}
+
+    //onTime(delay=60000) {
+    //    terminate()
+    //}
+
+
+    onResponse<No> {
+        println("FirstLawQuestionOne state - NO")
+        furhat.ask("Okay. Waiting for you to answer!", timeout = 30000)
+    }
+
+    onResponse<Yes> {
+        println("FirstLawQuestionOne state - YES")
+        val session2_fl_question1_tip = utterance {
+            +"According to Newton’s First Law, an object remains in the same state of motion unless"
+            +"a resultant force acts on it."
+            +delay(2000)
+        }
+        furhat.say(session2_fl_question1_tip)
+        furhat.ask("Hope that helps. Try to answer now!", timeout = 30000)
+    }
+
+    onNoResponse { // Catches silence
+        println("FirstLawQuestionOne state - NO Response")
+        furhat.say("I didn't hear anything")
+        furhat.ask("Do you need any help?", timeout = 5000)
+    }
+
+    onResponse<True> {
+        println("FirstLawQuestionOne state - True")
+        furhat.say("Well done that's absolutely correct. In fact it's another way to describe Newton's First Law")
+        terminate()
+    }
+
+    onResponse<False> {
+        println("FirstLawQuestionOne state - False")
+        val session2_fl_question1_tip = utterance {
+            +"I'm afraid that's not the correct answer. A net resultant force is required in order to change the "
+            +"velocity of an object"
+            +delay(2000)
+            +"According to Newton’s First Law, an object remains in the same state of motion unless"
+            +"a resultant force acts on it."
+            +delay(2000)
+        }
+        furhat.say(session2_fl_question1_tip)
+        terminate()
     }
 
 }

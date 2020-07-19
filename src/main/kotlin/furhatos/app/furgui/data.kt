@@ -1,7 +1,9 @@
 package furhatos.app.furgui
 
 // Buttons
-val buttons = listOf("Register", "Pre-Test", "Lecture", "Quiz")
+//val buttons = listOf("Register", "Lecture", "Pre-Test")
+val buttons = listOf("Register", "Lecture", "Quiz")
+
 
 /*
  Input fields, each with a answer to be spoken. The answer is defined as a lambda
