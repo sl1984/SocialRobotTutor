@@ -4,6 +4,8 @@ import furhatos.nlu.*
 import furhatos.nlu.grammar.Grammar
 import furhatos.nlu.kotlin.grammar
 import furhatos.nlu.common.Number
+import furhatos.records.Record
+import furhatos.records.User
 import furhatos.util.Language
 
 
@@ -18,3 +20,4 @@ class False : EnumEntity(stemming = true, speechRecPhrases = true) {
         return listOf("False", "Incorrect", "wrong", "that is not correct", "that is incorrect", "that is wrong", "that is not right")
     }
 }
+

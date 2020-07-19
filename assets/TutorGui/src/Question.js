@@ -34,10 +34,10 @@ class Question extends Component{
       if(this.state.selectedAns == question.correct){
             console.log('clickButton - Selected Answer Option is:'+this.state.selectedAns)
             setScore(this.props.score+1);
-            message="Well done that's absolutely correct."
+            message="Well done. That's absolutely correct."
       } else {
         console.log('clickButton - Selected Answer Option is wrong:'+this.state.selectedAns)
-        message=`I am afraid that is not the correct answer. The correct answer is, Option ${question.correct}`
+        message=`I am afraid, that is not correct. The correct answer is, Option ${question.correct}`
       }
       //setCurrent(this.props.current+1);
       //setShowHelp(false);
@@ -96,7 +96,7 @@ class Question extends Component{
 
   render(){
     const {question} = this.props;
-    var buttonContent = <Button key="Next" label="Next" onClick={() => this.clickNextButton(question.id, "Next")} speaking={this.state.speaking} style="info" bsSize="medium"/>
+    var buttonContent = <Button key="Next Question" label="Next Question" onClick={() => this.clickNextButton(question.id, "Next")} speaking={this.state.speaking} style="info" bsSize="medium"/>
 
     if (this.state.submitted == false){
         buttonContent = <Button key="Submit" label="Submit" onClick={() => this.clickButton(question.id, "Submit")} speaking={this.state.speaking} style="success" bsSize="medium"/>

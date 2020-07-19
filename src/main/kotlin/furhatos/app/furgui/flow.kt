@@ -87,8 +87,11 @@ val GUIConnected = state(NoGUI) {
         val answer = inputFieldData[variable]?.invoke(value)
         furhat.say(answer ?: "Something went wrong")
 
-        val instruction = "Please take the test by clicking the button Pre-Test"
-        furhat.say(instruction)
+        // Registering the user
+        users.current.registrationId = value
+
+        //val instruction = "Please take the test by clicking the button Pre-Test"
+        //furhat.say(instruction)
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
@@ -133,28 +136,28 @@ val PreTest = state {
 
     onEntry {
         println("PreTest state - start")
-        val text = ("Welcome! This is the initial test, which will check your knowledge of the subject. Best of Luck")
+        val text = ("Best of Luck")
         furhat.say(text)
 
         call(PreTestQuestion)
-        println("PreTest state - after 1st question")
+        //println("PreTest state - after 1st question")
 
     }
 
     // Notification from GUI to Furhat
     onEvent(NOTIFICATION) {
         val data = it.get("data").toString()
-        println("PreTest state - Next Question -  Question No : $data")
+        //println("PreTest state - Next Question -  Question No : $data")
 
         // Hardcoded value of 6 to exit from this loop
         if (data?.toInt() > 5) {
-            println("Terminate from PreTest state")
+            //println("Terminate from PreTest state")
             terminate()
         } else {
             // Next question notification
-            println("PreTest state - Go to next question")
+            //println("PreTest state - Go to next question")
             call(PreTestQuestion)
-            println("PreTest state - after question 2 onwards")
+            //println("PreTest state - after question 2 onwards")
 
         }
     }
@@ -186,26 +189,26 @@ val PreTestQuestion = state(Interaction) {
     }
 
     onResponse<No> {
-        println("PreTestQuestion state - NO - Counter: $counter")
+        //println("PreTestQuestion state - NO - Counter: $counter")
         furhat.say("Okay! Help No ")
     }
 
     onResponse<Yes> {
-        println("PreTestQuestion state - YES  - Counter: $counter")
+        //println("PreTestQuestion state - YES  - Counter: $counter")
         send(HELPTEXT)
         furhat.say("Check your help box to see the hints")
     }
 
     onNoResponse { // Catches silence
-        println("PreTestQuestion state - NO Response  - Counter: $counter")
+        //println("PreTestQuestion state - NO Response  - Counter: $counter")
         furhat.say("I didn't hear anything")
     }
 
     // Notification from GUI to Furhat
     onEvent(NOTIFICATION) {
-        println("PreTestQuestion state - Submit Answer -  Counter: $counter")
+        //println("PreTestQuestion state - Submit Answer -  Counter: $counter")
         val data = it.get("data").toString()
-        println("PreTestQuestion state - Submit Answer -  Question No : $data")
+        //println("PreTestQuestion state - Submit Answer -  Question No : $data")
         // Terminate when user submits the answer
         terminate()
     }
@@ -215,38 +218,36 @@ val PreTestQuestion = state(Interaction) {
 val Quiz = state {
 
     onEntry {
-        println("Quiz state - start")
+        println("Quiz - start")
 
         val textq1 = utterance {
-            +"Let's do some practise test."
+            +"Welcome back!"
             +Gestures.Smile
             +delay(1000)
-            +"This will help in assessing your understanding of Newton's First and Second Laws of Motion"
-            +delay(1000)
-            +"I will watch your progress and may offer help and useful hints for solving the problem."
+            +"I will watch your progress and may offer help and useful hints for solving the problems."
         }
 
         furhat.say(textq1)
 
         call(QuizQuestion)
-        println("Quiz state - after 1st question")
+        //println("Quiz state - after 1st question")
 
     }
 
     // Notification from GUI to Furhat
     onEvent(NOTIFICATION) {
         val data = it.get("data").toString()
-        println("Quiz state - Next Question -  Question No : $data")
+        //println("Quiz state - Next Question -  Question No : $data")
 
         // Hardcoded value of 6 to exit from this loop
         if (data?.toInt() > 5) {
-            println("Terminate from Quiz state")
+            //println("Terminate from Quiz state")
             terminate()
         } else {
             // Next question notification
-            println("Quiz state - Go to next question")
+            //println("Quiz state - Go to next question")
             call(QuizQuestion)
-            println("Quiz state - after question 2 onwards")
+            //println("Quiz state - after question 2 onwards")
 
         }
     }
@@ -259,16 +260,18 @@ val QuizQuestion = state(Interaction) {
     var counter = 0
 
     onEntry {
-        println("QuizQuestion state")
+        //println("QuizQuestion state")
     }
 
-    onTime(delay=30000) {
+    onTime(delay=20000) {
         counter = 1
+        users.current.quiz.promptHelp1 = true
         furhat.ask("Do you need any help?", timeout = 10000)
     }
 
-    onTime(delay=60000) {
+    onTime(delay=50000) {
         counter = 2
+        users.current.quiz.promptHelp2 = true
         furhat.ask("Do you need any help?", timeout = 10000)
     }
 
@@ -278,19 +281,26 @@ val QuizQuestion = state(Interaction) {
     //}
 
     onResponse<No> {
-        println("QuizQuestion state - NO - Counter: $counter")
+        //println("QuizQuestion state - NO - Counter: $counter")
         furhat.say("Okay! No Problem")
     }
 
     onResponse<Yes> {
-        println("QuizQuestion state - YES  - Counter: $counter")
+        //println("QuizQuestion state - YES  - Counter: $counter")
         send(HELPTEXT)
         furhat.say("I have sent you some hints to your help box. Hope that helps!")
+        if (users.current.quiz.promptHelp1){
+            users.current.quiz.help1 = true
+        }
+        if (users.current.quiz.promptHelp2){
+            users.current.quiz.help2 = true
+        }
     }
 
     onNoResponse { // Catches silence
-        println("QuizQuestion state - NO Response  - Counter: $counter")
+        //println("QuizQuestion state - NO Response  - Counter: $counter")
         furhat.say("I didn't hear anything")
+        users.current.quiz.noUserResponse = true
     }
 
     // Notification from GUI to Furhat
@@ -298,18 +308,30 @@ val QuizQuestion = state(Interaction) {
 
         val data = it.get("data").toString()
         furhat.say(data ?: "Something went wrong")
+        users.current.quiz.comments = mutableListOf(data)
 
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
 
-        println("Message Received from GUI")
+        //println("Message Received from GUI")
     }
 
     // Notification from GUI to Furhat
     onEvent(NOTIFICATION) {
-        println("QuizQuestion state - Submit Answer -  Counter: $counter")
+        //println("QuizQuestion state - Submit Answer -  Counter: $counter")
         val data = it.get("data").toString()
-        println("QuizQuestion state - Submit Answer -  Question No : $data")
+        users.current.quiz.questionId = data
+        //println("QuizQuestion state - Submit Answer -  Question No : $data")
+
+        // Print Quiz Performance data
+        println("User: ${users.current.registrationId}")
+        println("Question Id: ${users.current.quiz.questionId}")
+        println("Help 1 offered: ${users.current.quiz.promptHelp1}")
+        println("Help 1 used: ${users.current.quiz.help1}")
+        println("Help 2 offered: ${users.current.quiz.promptHelp2}")
+        println("Help 2 used: ${users.current.quiz.help2}")
+        println("No User Response for help: ${users.current.quiz.noUserResponse}")
+        println("Answer?: ${users.current.quiz.comments}")
         // Terminate when user submits the answer
         terminate()
     }
@@ -968,9 +990,9 @@ val LectureSecondLaw = state(Interaction) {
             +"That's the end of this lecture series on Newton's Laws of Motion"
             +"Hope you have enjoyed this session."
             +delay(1000)
-            +"Let's move on to the practice tests, by clicking the button Quiz."
+            +"When you are ready, click the Quiz button to launch the practice tests."
             +delay(1000)
-            +"We can make it more interactive and fun experience"
+            +"We can make it more interactive and fun experience."
             +delay(2000)
         }
 
