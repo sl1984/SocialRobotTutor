@@ -11,7 +11,7 @@ class HelpBox extends Component{
 
         return(
           <div className="well">
-            <div><h4>Help Box</h4></div>
+            <div><h4><b>Help Box</b></h4></div>
             <div>{help}</div>
           </div>
         )
