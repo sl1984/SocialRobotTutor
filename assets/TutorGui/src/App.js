@@ -26,122 +26,122 @@ class App extends Component {
           "preTestEndTime": "",
           "questions":[
                   {
-                    id:1,
-                    text: 'Which of the following statements is false?',
-                    choices:[
-                      {
-                        id:'a',
-                        text:'If the net force on a body is zero, then its velocity will not change'
-                      },
-                      {
-                        id:'b',
-                        text:'An unbalanced force on a body will always impact the object speed'
-                      },
-                      {
-                        id:'c',
-                        text:'The reason why initially moving objects tend to come to rest in our everyday life is because they are being acted upon by an unbalanced force'
-                      },
-                    ],
-                    correct: 'b',
-                    hintone: 'Hint 1',
-                    hinttwo: 'Hint 2',
-                    hintthree: 'Hint 3'
-                  },
+                      id:1,
+                      text: 'A stationary object has no resultant forces acting on it',
+                      choices:[
+                        {
+                          id:'a',
+                          text:'True'
+                        },
+                        {
+                          id:'b',
+                          text:'False'
+                        },
+                      ],
+                      correct: 'a',
+                      hintone: "According to Newton’s First Law, an object remains in the same state of motion unless a resultant force acts on it.",
+                      hinttwo: "If the resultant force acting on a stationary object is zero, then the object will remain stationary.",
+                      hintthree: "A resultant force acting on a stationary object causes the object to move"
+                    },
                   {
                     id:2,
-                    text: 'Which of the following statements most correctly describes Newton’s first law of Motion?',
+                    text: "According to Newton's first law, when the net force acting on a moving object is zero, the object will",
                     choices:[
                       {
                         id:'a',
-                        text:'An object will move until a net force acts on the object.'
+                        text:'accelerate'
                       },
                       {
                         id:'b',
-                        text:'An object will not move unless a net force acts on the object.'
+                        text:'decelerate'
                       },
                       {
                         id:'c',
-                        text:'An object will change direction if a net force acts on the object.'
+                        text:'move with constant speed'
                       },
                       {
                         id:'d',
-                        text:'An object will not change its velocity unless a net force acts on the object.'
+                        text:'move with constant velocity'
                       },
                     ],
                     correct: 'd',
-                    hintone: 'Hint 1',
-                    hinttwo: 'Hint 2',
-                    hintthree: 'Hint 3'
+                    hintone: "According to Newton's first law, a moving object will accelerate or decelerate when a resultant force acts on it.",
+                    hinttwo: "Velocity is determined by both speed and direction",
+                    hintthree: ""
                   },
                   {
                     id:3,
-                    text: 'A car speeds up. Which claim about the forces acting on on the car must be true?',
+                    text: "Which of Newton's Laws explains why satellites need very little fuel to stay in orbit?",
                     choices:[
                       {
                         id:'a',
-                        text:'there is not enough information'
+                        text:"Newton's First Law of Motion"
                       },
                       {
                         id:'b',
-                        text:'there is no net force on the car'
+                        text:"Newton's Second Law of Motion"
                       },
                       {
                         id:'c',
-                        text:'there is a net force on the car'
-                      },
-                      {
-                         id:'d',
-                         text:'there are no forces on the car'
-                      },
-                    ],
-                    correct: 'c',
-                    hintone: 'Hint 1',
-                    hinttwo: 'Hint 2',
-                    hintthree: 'Hint 3'
-                  },
-                  {
-                    id:4,
-                    text: 'An aeroplane flies with constant velocity, which claim about the forces acting on the aeroplane must be true?',
-                    choices:[
-                      {
-                        id:'a',
-                        text:'there are no forces on the aeroplane'
-                      },
-                      {
-                        id:'b',
-                        text:'there is no net force on the aeroplane '
-                      },
-                      {
-                        id:'c',
-                        text:'there is not enough information'
-                      },
-                      {
-                        id:'d',
-                        text:'there is a net force on the aeroplane'
-                      },
-                    ],
-                    correct: 'b',
-                    hintone: 'Hint 1',
-                    hinttwo: 'Hint 2',
-                    hintthree: 'Hint 3'
-                  },
-                  {
-                    id:5,
-                    text: 'Objects in orbit around the Earth (like a satellite) must have a net force acting on them.',
-                    choices:[
-                      {
-                        id:'a',
-                        text:'True'
-                      },
-                      {
-                        id:'b',
-                        text:'False'
+                        text:"Newton's Third Law of Motion"
                       },
                     ],
                     correct: 'a',
-                    hintone: 'Hint 1',
-                    hinttwo: 'Hint 2',
-                    hintthree: 'Hint 3'
+                    hintone: "It is a near vacuum in space so the satellite encounters almost no friction to slow them down.",
+                    hinttwo: "Once a satellite is in orbit, the only net force acting on it is the inward force of gravity.",
+                    hintthree: ""
+                  },
+                  {
+                    id:4,
+                    text: "Calculate the force (N) needed to accelerate an object with a mass of 10 kg by 2 m/s2",
+                    choices:[
+                      {
+                        id:'a',
+                        text:"5 N"
+                      },
+                      {
+                        id:'b',
+                        text:"20 N"
+                      },
+                      {
+                        id:'c',
+                        text:"40 N"
+                      },
+                      {
+                        id:'d',
+                        text:"0 N"
+                      },
+                    ],
+                    correct: 'b',
+                    hintone: "Do you remember the formula of Newton's Second Law of Motion?",
+                    hinttwo: "Force (N)  = Mass (kg) × Acceleration m / s2 ",
+                    hintthree: ""
+                  },
+                  {
+                    id:5,
+                    text: "A force of 50 N is applied to an object with a mass of 0.5 kg. Calculate the acceleration of the object",
+                    choices:[
+                      {
+                        id:'a',
+                        text:'25 m/s2'
+                      },
+                      {
+                        id:'b',
+                        text:'250 m/s2'
+                      },
+                      {
+                        id:'c',
+                        text:'100 m/s2'
+                      },
+                      {
+                        id:'d',
+                        text:'10 m/s2'
+                      },
+                    ],
+                    correct: 'c',
+                    hintone: "Force (N)  = Mass (kg) × Acceleration (m / s2) ",
+                    hinttwo: "Acceleration (m / s2) =  Force (N) / Mass (kg)",
+                    hintthree: ""
                   }
           ],
           "score":0,
