@@ -467,7 +467,7 @@ val LectureFirstLaw = state(Interaction) {
         send(ScreenDelivery(screen = fl1d))
 
         val session_fl1d = utterance {
-            +"Secondly, we also need to understand what resultant force means. There are multiple forces that can act on an object."
+            +"Secondly, we also need to understand what resultant force means. There are multiple forces that can act on an object such forces of friction, tension, thrust etc."
             +delay(1000)
             +"If we take the sum of all the forces acting on a body, we will get the net force or resultant force."
             +"If this net force is zero, then we  say that the forces are balanced."
@@ -499,7 +499,7 @@ val LectureFirstLaw = state(Interaction) {
         send(ScreenDelivery(screen = fl1f))
 
         val session_fl1f = utterance {
-            +"On the other hand, if the resultant force acting on a moving object is zero, then the object will "
+            +"Similarly, if the resultant force acting on a moving object is zero, then the object will "
             +"continue moving in the same direction with the same speed, or in other words, with the same velocity."
             +delay(1000)
             +"This is an elevator, moving upwards with constant velocity. Can you locate the two forces acting on this elevator?"
@@ -531,7 +531,7 @@ val LectureFirstLaw = state(Interaction) {
         send(ScreenDelivery(screen = fl5))
 
         val session_fl5 = utterance {
-            +"Now, imagine is there a 50 Newton force acting on its right, and a 50 Newton Force acting on its left."
+            +"Now, imagine there a 50 Newton force acting on its right, and a 50 Newton Force acting on its left."
             +glance(Location.RIGHT, 5000)
             +delay(1000)
             +"In this case, since the two forces exerted on the red object, are equal and opposite in direction,  "
@@ -879,10 +879,14 @@ val LectureFirstLaw = state(Interaction) {
         send(ScreenDelivery(screen = fl27))
 
         val session_fl27 = utterance {
-            +"Now, lets take some time to reflect Newton’s first law with this diagram."
+            +"Now, lets take some time to reflect upon what we learnt so far."
             +glance(Location.RIGHT, 8000)
             +delay(1000)
-            +"Here, it shows the impact of balanced forces on stationary and moving objects"
+            +"As you can see in the diagram, when forces are balanced, the resultant force is zero."
+            +delay(10000)
+            +"Therefore, an object maintains its state of motion.  Objects at rest, will continue to be at rest."
+            +delay(10000)
+            +"Similarly, objects in motion will carry on with constant motion."
             +delay(10000)
         }
 
@@ -892,8 +896,14 @@ val LectureFirstLaw = state(Interaction) {
         send(ScreenDelivery(screen = fl28))
 
         val session_fl28 = utterance {
-            +"Here, it shows the impact of Unbalanced forces on stationary and moving objects"
+            +"On the other hand, when forces are unbalanced, there is a resultant force"
             +glance(Location.RIGHT, 8000)
+            +delay(10000)
+            +"This resultant force causes acceleration."
+            +delay(10000)
+            +"If the objects are at rest, they may start moving."
+            +delay(10000)
+            +"If the objects are already in motion, they may speed up, slow down, stop or change direction based on the magnitude and direction of the resultant force. "
             +delay(10000)
         }
 
