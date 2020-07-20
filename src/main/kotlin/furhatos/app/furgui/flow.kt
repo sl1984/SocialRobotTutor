@@ -905,6 +905,8 @@ val LectureFirstLaw = state(Interaction) {
             +delay(10000)
             +"If the objects are already in motion, they may speed up, slow down, stop or change direction based on the magnitude and direction of the resultant force. "
             +delay(10000)
+            +"The acceleration produced is directly proportional to the force applied and inversely proportional to the mass of the object. "
+            +delay(10000)
         }
 
         furhat.say(session_fl28)
