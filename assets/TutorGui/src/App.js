@@ -378,7 +378,6 @@ class App extends Component {
                     <Navbar bg="light">
                       <Navbar.Header>
                         <Navbar.Brand>
-                          <img alt="" src="assets/img/newton.webp" width="20" height="20" className="d-inline-block align-top"/>
                           Social Robot Tutor
                         </Navbar.Brand>
                       </Navbar.Header>
