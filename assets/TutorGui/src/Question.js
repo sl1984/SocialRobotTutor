@@ -46,7 +46,7 @@ class Question extends Component{
 
       if (this.props.renderView == "Quiz"){
           //ws://192.168.1.10:8080/api
-          let socket = new window.WebSocket("ws://192.168.1.10:8080/api");
+          let socket = new window.WebSocket("ws://localhost:8080/api");
 
           const event0 = { event_name: "Message", data: message };
           //const event1 = { event_name: "Notification", data: question.id };
@@ -77,7 +77,7 @@ class Question extends Component{
 
         if (this.props.renderView == "Quiz"){
             //ws://192.168.1.10:8080/api
-            let socket = new window.WebSocket("ws://192.168.1.10:8080/api");
+            let socket = new window.WebSocket("ws://localhost:8080/api");
 
             const event1 = { event_name: "Notification", data: question.id };
             const event2 = { event_name: "Notification", data: question.id+1 };

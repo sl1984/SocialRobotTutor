@@ -225,6 +225,7 @@ val Quiz = state {
             +Gestures.Smile
             +delay(1000)
             +"I will watch your progress and may offer help and useful hints for solving the problems."
+            +"Go ahead and start answering now. Best of luck"
         }
 
         furhat.say(textq1)
@@ -237,7 +238,7 @@ val Quiz = state {
     // Notification from GUI to Furhat
     onEvent(NOTIFICATION) {
         val data = it.get("data").toString()
-        //println("Quiz state - Next Question -  Question No : $data")
+        println("Quiz state - Next Question -  Question No : $data")
 
         // Hardcoded value of 6 to exit from this loop
         if (data?.toInt() > 5) {
@@ -313,12 +314,12 @@ val QuizQuestion = state(Interaction) {
         // Let the GUI know we're done speaking, to unlock buttons
         send(SPEECH_DONE)
 
-        //println("Message Received from GUI")
+        println("Message Received from GUI")
     }
 
     // Notification from GUI to Furhat
     onEvent(NOTIFICATION) {
-        //println("QuizQuestion state - Submit Answer -  Counter: $counter")
+        println("QuizQuestion state - Submit Answer -  Counter: $counter")
         val data = it.get("data").toString()
         users.current.quiz.questionId = data
         //println("QuizQuestion state - Submit Answer -  Question No : $data")
@@ -385,7 +386,7 @@ val Lecture = state(Interaction) {
 
         call(LectureFirstLaw)
 
-        furhat.ask("Shall we move onto the Second Law of Motion?", timeout = 3000)
+        furhat.ask("How is it going so far? Shall we move onto the Second Law of Motion?", timeout = 3000)
 
         //terminate()
 
@@ -469,7 +470,7 @@ val LectureFirstLaw = state(Interaction) {
         send(ScreenDelivery(screen = fl1d))
 
         val session_fl1d = utterance {
-            +"Secondly, we also need to understand what resultant force means. There are multiple forces that can act on an object such forces of friction, tension, thrust etc."
+            +"Secondly, we also need to understand what resultant force means. There are multiple forces that can act on an object such as forces of friction, tension, thrust etc."
             +delay(1000)
             +"If we take the sum of all the forces acting on a body, we will get the net force or resultant force."
             +"If this net force is zero, then we  say that the forces are balanced."
@@ -588,7 +589,8 @@ val LectureFirstLaw = state(Interaction) {
             +"Here, is an example, of the forces acting on a stationary car."
             +glance(Location.RIGHT, 5000)
             +delay(1000)
-            "As you can see, the only two forces acting on this car, is the force of gravity downwards, "
+            +"As you can see, the only two forces acting on this car, is the force of gravity downwards, "
+            +delay(1000)
             +"and the equal and opposite reactive normal force upwards. "
             +delay(1000)
             +"Both these forces, are equal and opposite and  hence, balance each other, creating a zero resultant force."

@@ -12,7 +12,7 @@ class Lecture extends Component{
   render(){
 
     var src = `assets/img/${this.props.screen}`
-    var screen = <img alt="Isaac Newton" width="700" height="450" className="align-right" src={src}/>
+    var screen = <img alt="Isaac Newton" width="600" height="450" className="align-right" src={src}/>
 
     return(
 
