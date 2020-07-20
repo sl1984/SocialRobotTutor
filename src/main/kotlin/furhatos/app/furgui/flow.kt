@@ -879,6 +879,8 @@ val LectureFirstLaw = state(Interaction) {
 
         call(FirstLawQuestionOne)
 
+        call(FirstLawQuestionTwo)
+
         terminate()
 
     }
@@ -902,17 +904,13 @@ val FirstLawQuestionOne = state(Interaction) {
             +"If the net force on a body is zero, then its velocity will not change"
         }
 
-        furhat.ask(session2_fl_question1, timeout = 30000)
+        furhat.ask(session2_fl_question1, timeout = 20000)
 
 
     }
 
-    //onTime(delay=60000) {
-    //    furhat.ask("Do you need any help?", timeout = 5000)
-    //}
-
-    //onTime(delay=60000) {
-    //    terminate()
+    //onTime(delay=40000) {
+    //    furhat.ask("Do you need any help?", timeout = 10000)
     //}
 
 
@@ -926,6 +924,7 @@ val FirstLawQuestionOne = state(Interaction) {
         val session2_fl_question1_tip = utterance {
             +"According to Newton’s First Law, an object remains in the same state of motion unless"
             +"a resultant force acts on it."
+            +Gestures.Smile
             +delay(2000)
         }
         furhat.say(session2_fl_question1_tip)
@@ -941,17 +940,20 @@ val FirstLawQuestionOne = state(Interaction) {
     onResponse<True> {
         println("FirstLawQuestionOne state - True")
         val session2_fl_question1_correct = utterance {
+            +Gestures.BigSmile
             +"Well done that's absolutely correct. In fact it's another way to describe Newton's First Law of Motion"
             +delay(3000)
         }
 
         furhat.say(session2_fl_question1_correct)
+
         terminate()
     }
 
     onResponse<False> {
         println("FirstLawQuestionOne state - False")
         val session2_fl_question1_tip = utterance {
+            +Gestures.ExpressSad
             +"I'm afraid that's not the correct answer. A net resultant force is required in order to change the "
             +"velocity of an object"
             +delay(2000)
@@ -960,6 +962,123 @@ val FirstLawQuestionOne = state(Interaction) {
             +delay(3000)
         }
         furhat.say(session2_fl_question1_tip)
+
+        terminate()
+    }
+
+}
+
+val FirstLawQuestionTwo = state(Interaction) {
+
+    onEntry {
+        println("Lecture - FirstLawQuestionTwo")
+
+        //
+        val fl_question2 = listOf("fl_question2.gif")
+        send(ScreenDelivery(screen = fl_question2))
+
+        val session2_fl_question2 = utterance {
+            +"Let’s move on to another question."
+            +delay(1000)
+            +"Is the following statement true or false. "
+            +delay(2000)
+            +"Objects in orbit around the Earth, like a satellite, must have a net force acting on them."
+        }
+
+        furhat.ask(session2_fl_question2, timeout = 15000)
+
+    }
+
+    //onTime(delay=40000) {
+    //   furhat.ask("Do you need any help?", timeout = 10000)
+    //}
+
+    onResponse<No> {
+        //println("FirstLawQuestionTwo state - NO")
+        furhat.ask("Okay. Waiting for you to answer!", timeout = 30000)
+    }
+
+    onResponse<Yes> {
+        println("FirstLawQuestionTwo state - YES")
+        val session2_fl_question2_tip = utterance {
+            +"An object in orbit may have a constant speed, but its direction is constantly changing as it"
+            +"moves in a circle and, thus, its velocity is also changing."
+            +delay(2000)
+        }
+        furhat.say(session2_fl_question2_tip)
+        furhat.ask("Hope that helps. Try to answer now!", timeout = 30000)
+    }
+
+    onNoResponse { // Catches silence
+        println("FirstLawQuestionTwo state - NO Response")
+        furhat.say("I didn't hear anything")
+        furhat.ask("Do you need any help?", timeout = 10000)
+    }
+
+    onResponse<True> {
+        println("FirstLawQuestionTwo state - True")
+        val session2_fl_question1_correct = utterance {
+            +Gestures.BigSmile
+            +"You’re doing really well! That is right"
+            +delay(3000)
+        }
+
+        furhat.say(session2_fl_question1_correct)
+
+        //
+        val fl_question2_ans = listOf("fl_question2_ans.gif")
+        send(ScreenDelivery(screen = fl_question2_ans))
+
+        val session_fl_question2_ans = utterance {
+            +"A good example of this is circular motion. "
+            +glance(Location.RIGHT, 5000)
+            +delay(1000)
+            +"An object with no net forces acting on it would not have a change in velocity. "
+            +"If it is stationary, it would stay stationary. If it is in motion, it will stay in motion with "
+            +"a fixed velocity, moving in a straight line. This comes directly out of Newton's First Law of Motion."
+            +delay(1000)
+            +"An object in orbit may have a constant speed, but its direction is constantly changing as it "
+            +"moves in a circle and, thus, its velocity is also changing. Remember, velocity takes into"
+            +" consideration speed and direction. Therefore, there must be a net force acting on it."
+            +" This is the net force of Earth's gravity acting on the object."
+            +delay(3000)
+        }
+
+        furhat.say(session_fl_question2_ans)
+
+        terminate()
+    }
+
+    onResponse<False> {
+        println("FirstLawQuestionOne state - False")
+        val session2_fl_question2_tip = utterance {
+            +Gestures.ExpressSad
+            +"I suppose, that wasn’t the correct answer."
+            +delay(2000)
+        }
+        furhat.say(session2_fl_question2_tip)
+
+        //
+        val fl_question2_ans = listOf("fl_question2_ans.gif")
+        send(ScreenDelivery(screen = fl_question2_ans))
+
+        val session_fl_question2_ans = utterance {
+            +"A good example of this is circular motion. "
+            +glance(Location.RIGHT, 5000)
+            +delay(1000)
+            +"An object with no net forces acting on it would not have a change in velocity. "
+            +"If it is stationary, it would stay stationary. If it is in motion, it will stay in motion with "
+            +"a fixed velocity ,moving in a straight line. This comes directly out of Newton's First Law of Motion."
+            +delay(1000)
+            +"An object in orbit may have a constant speed, but its direction is constantly changing as it "
+            +"moves in a circle and, thus, its velocity is also changing . Remember, velocity takes into"
+            +" consideration speed and direction. Therefore, there must be a net force acting on it."
+            +" This is the net force of Earth's gravity acting on the object."
+            +delay(3000)
+        }
+
+        furhat.say(session_fl_question2_ans)
+
         terminate()
     }
 
