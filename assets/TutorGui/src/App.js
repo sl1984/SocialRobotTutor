@@ -27,7 +27,7 @@ class App extends Component {
           "questions":[
                   {
                       id:1,
-                      text: 'A stationary object has no resultant forces acting on it',
+                      text: 'If the resultant force on a body is zero, its velocity will not change',
                       choices:[
                         {
                           id:'a',
@@ -39,8 +39,8 @@ class App extends Component {
                         },
                       ],
                       correct: 'a',
-                      hintone: "According to Newton’s First Law, an object remains in the same state of motion unless a resultant force acts on it.",
-                      hinttwo: "If the resultant force acting on a stationary object is zero, then the object will remain stationary.",
+                      hintone: "Newton’s first law of motion states that there must be a cause—which is a net external force—for there to be any change in velocity, either a change in magnitude or direction.",
+                      hinttwo: "An object with no net forces acting on it would not have a change in velocity. If it is stationary, it would stay stationary. If it is in motion, it will stay in motion with a constant velocity . This comes directly out of Newton's First Law of Motion.",
                       hintthree: "A resultant force acting on a stationary object causes the object to move"
                     },
                   {
@@ -65,8 +65,8 @@ class App extends Component {
                       },
                     ],
                     correct: 'd',
-                    hintone: "According to Newton's first law, a moving object will accelerate or decelerate when a resultant force acts on it.",
-                    hinttwo: "Velocity is determined by both speed and direction",
+                    hintone: "We studied that  when an unbalanced force is exerted on a moving object , it causes it to speed up, slow down, stop or change direction. In case of balanced forces, the object maintains its state of motion.",
+                    hinttwo: "If the forces are balanced, the object in uniform motion continues to move with same speed in the same direction. Velocity is dependant on both direction and speed",
                     hintthree: ""
                   },
                   {
@@ -87,25 +87,25 @@ class App extends Component {
                       },
                     ],
                     correct: 'a',
-                    hintone: "It is a near vacuum in space so the satellite encounters almost no friction to slow them down.",
-                    hinttwo: "Once a satellite is in orbit, the only net force acting on it is the inward force of gravity.",
+                    hintone: "Which law states that’s objects continue to move in uniform motion unless acted by an external force? There are very little forces encountered in space, because it is near vacuum.",
+                    hinttwo: "According to Newton’s first law, objects continue to move in uniform motion unless acted by an external force? There are very little forces encountered in space, because it is near vacuum.",
                     hintthree: ""
                   },
                   {
                     id:4,
-                    text: "Calculate the force (N) needed to accelerate an object with a mass of 10 kg by 2 m/s2",
+                    text: "If a 10 kg cart is accelerating down the hill at 560 cm/sec2 , what is the force that is the size of the force causing the acceleration?",
                     choices:[
                       {
                         id:'a',
-                        text:"5 N"
+                        text:".56 N"
                       },
                       {
                         id:'b',
-                        text:"20 N"
+                        text:"56 N"
                       },
                       {
                         id:'c',
-                        text:"40 N"
+                        text:"5600 N"
                       },
                       {
                         id:'d',
@@ -113,13 +113,13 @@ class App extends Component {
                       },
                     ],
                     correct: 'b',
-                    hintone: "Do you remember the formula of Newton's Second Law of Motion?",
-                    hinttwo: "Force (N)  = Mass (kg) × Acceleration m / s2 ",
+                    hintone: "Do you remember the formula of Newton's Second Law of Motion? What is the unit of acceleration?",
+                    hinttwo: "Force (N)  = Mass (kg) × Acceleration m / s2 . Mass is measured in m/s2( 560cm/s2 equals 5.6m/s2)",
                     hintthree: ""
                   },
                   {
                     id:5,
-                    text: "A force of 50 N is applied to an object with a mass of 0.5 kg. Calculate the acceleration of the object",
+                    text: "A force of 50 N is applied to an object with a mass of 500 gm. Calculate the acceleration of the object",
                     choices:[
                       {
                         id:'a',
@@ -139,8 +139,8 @@ class App extends Component {
                       },
                     ],
                     correct: 'c',
-                    hintone: "Force (N)  = Mass (kg) × Acceleration (m / s2) ",
-                    hinttwo: "Acceleration (m / s2) =  Force (N) / Mass (kg)",
+                    hintone: "Do you remember the formula of Newton's Second Law of Motion? What is the unit of mass? ",
+                    hinttwo: "Force (N)  = Mass (kg) × Acceleration m / s2 . Mass is measured in kilograms(1 kilogram equals 1000gm)",
                     hintthree: ""
                   }
           ],
