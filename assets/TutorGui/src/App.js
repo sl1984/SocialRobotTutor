@@ -93,7 +93,7 @@ class App extends Component {
                   },
                   {
                     id:4,
-                    text: "If a 10 kg cart is accelerating down the hill at 560 cm/sec2 , what is the force that is the size of the force causing the acceleration?",
+                    text: "If a 10 kg cart is accelerating down the hill at 560 cm/sec2 , what is the magnitude of force causing the acceleration?",
                     choices:[
                       {
                         id:'a',

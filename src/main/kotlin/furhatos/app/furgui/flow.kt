@@ -347,6 +347,8 @@ val Lecture = state(Interaction) {
         val intro = utterance {
             +"Hello. Welcome to the session on Force and Motion."
             +Gestures.Smile
+            +delay(1000)
+            +"I am Furhat, your tutor"
             +delay(2000)
         }
 
@@ -875,42 +877,6 @@ val LectureFirstLaw = state(Interaction) {
 
         furhat.say(session_fl_planet)
 
-        val fl27 = listOf("fl27.gif")
-        send(ScreenDelivery(screen = fl27))
-
-        val session_fl27 = utterance {
-            +"Now, lets take some time to reflect upon what we learnt so far."
-            +glance(Location.RIGHT, 8000)
-            +delay(1000)
-            +"As you can see in the diagram, when forces are balanced, the resultant force is zero."
-            +delay(10000)
-            +"Therefore, an object maintains its state of motion.  Objects at rest, will continue to be at rest."
-            +delay(10000)
-            +"Similarly, objects in motion will carry on with constant motion."
-            +delay(10000)
-        }
-
-        furhat.say(session_fl27)
-
-        val fl28 = listOf("fl28.gif")
-        send(ScreenDelivery(screen = fl28))
-
-        val session_fl28 = utterance {
-            +"On the other hand, when forces are unbalanced, there is a resultant force"
-            +glance(Location.RIGHT, 8000)
-            +delay(10000)
-            +"This resultant force causes acceleration."
-            +delay(10000)
-            +"If the objects are at rest, they may start moving."
-            +delay(10000)
-            +"If the objects are already in motion, they may speed up, slow down, stop or change direction based on the magnitude and direction of the resultant force. "
-            +delay(10000)
-            +"The acceleration produced is directly proportional to the force applied and inversely proportional to the mass of the object. "
-            +delay(10000)
-        }
-
-        furhat.say(session_fl28)
-
         call(FirstLawQuestionOne)
 
         terminate()
@@ -1123,6 +1089,42 @@ val LectureSecondLaw = state(Interaction) {
         }
 
         furhat.say(session2_sl8)
+
+        val fl27 = listOf("fl27.gif")
+        send(ScreenDelivery(screen = fl27))
+
+        val session_fl27 = utterance {
+            +"Now, lets take some time to reflect upon what we learnt so far."
+            +glance(Location.RIGHT, 8000)
+            +delay(1000)
+            +"As you can see in the diagram, when forces are balanced, the resultant force is zero."
+            +delay(1000)
+            +"Therefore, an object maintains its state of motion.  Objects at rest, will continue to be at rest."
+            +delay(1000)
+            +"Similarly, objects in motion will carry on with constant motion."
+            +delay(10000)
+        }
+
+        furhat.say(session_fl27)
+
+        val fl28 = listOf("fl28.gif")
+        send(ScreenDelivery(screen = fl28))
+
+        val session_fl28 = utterance {
+            +"On the other hand, when forces are unbalanced, there is a resultant force"
+            +glance(Location.RIGHT, 8000)
+            +delay(1000)
+            +"This resultant force causes acceleration."
+            +delay(1000)
+            +"If the objects are at rest, they may start moving."
+            +delay(1000)
+            +"If the objects are already in motion, they may speed up, slow down, stop or change direction based on the magnitude and direction of the resultant force. "
+            +delay(1000)
+            +"The acceleration produced is directly proportional to the force applied and inversely proportional to the mass of the object. "
+            +delay(10000)
+        }
+
+        furhat.say(session_fl28)
 
         //
         val thanks = listOf("thanks.gif")
