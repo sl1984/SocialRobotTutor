@@ -421,7 +421,7 @@ val TugOfWarExample = state(Interaction) {
     }
 
     onResponse<Yes> {
-        furhat.say("Okay!")
+        furhat.say(session_screen4a_yes)
         call(BoxOnTableExample)
         terminate()
     }

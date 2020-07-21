@@ -12,7 +12,7 @@ val session_screen1 = utterance {
     +attend(Location.RIGHT)
     +glance(Location.RIGHT)
     +delay(1000)
-    +"Have you played the tug of war game?"
+    +"Have you ever played the tug of war game?"
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
     +delay(2000)
@@ -56,7 +56,7 @@ val session_screen3 = utterance {
     +glance(Location.RIGHT)
     +delay(1000)
     +"This is because the magnitude of force exerted by  the first team is higher, "
-    +"and the net force is acting towards the team exerting the larger force"
+    +"and the net force is acting towards the direction team exerting the larger force"
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
     +delay(2000)
@@ -83,7 +83,7 @@ val session_screen4a = utterance {
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
     +delay(1000)
-    +"I would like to show you all the forces action on Person B."
+    +"I would like to show you all the forces acting on Person B."
     +attend(Location.RIGHT)
     +glance(Location.RIGHT)
     +"A person standing on ground, experiences the force of gravity."
@@ -94,7 +94,7 @@ val session_screen4a = utterance {
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
     +delay(1000)
-    +"When person A pulls the rope, there is a tension exerted on on Person B. This force  tries to pull"
+    +"When person A pulls the rope, there is a tension exerted on Person B. This force  tries to pull"
     +" him towards Person A."
     +attend(Location.RIGHT)
     +glance(Location.RIGHT)
@@ -108,16 +108,16 @@ val session_screen4a = utterance {
 
 // Tug Of War review
 val session_screen4a_review = utterance {
-    +Gestures.Thoughtful(10.0, 3000.0)
+    +Gestures.Thoughtful(10.0, 5000.0)
     +"If there is something you don’t understand, that’s fine, we can go through another example."
     +delay(1000)
-    " Would you like me to show you a simpler example?"
+    +"Would you like me to show you a simpler example?"
     +Gestures.Smile(1.0, 2000.0)
 }
 
 val session_screen4a_yes = utterance {
     +Gestures.Smile(1.0, 2000.0)
-    +"Sure. I'm happy to explain using this simple example"
+    +"Sure. I'm happy to explain the concept of paired nature of forces, using a simpler example"
 }
 
 // Box on Table Example
@@ -186,7 +186,7 @@ val session_screen9 = utterance {
     +delay(1000)
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
-    +"Now imagine, this box is hung on ceiling using a rope."
+    +"Now imagine that, this box is hung on ceiling using a rope."
     +delay(1000)
     +attend(Location.RIGHT)
     +glance(Location.RIGHT)
@@ -194,7 +194,7 @@ val session_screen9 = utterance {
     +"As you can see there, is a force of gravity acting downwards."
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
-    +"There is another new force comes into play here. What could this be?"
+    +"There is also another force that comes into play here. What could this be?"
     +delay(2000)
 }
 
@@ -206,7 +206,7 @@ val session_screen10 = utterance {
     +delay(1000)
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
-    +"This will act exactly in its opposite direction of the gravitational force which is pulling the box downwards"
+    +"This will act exactly in the opposite direction of the gravitational force which is pulling the box downwards"
     +delay(2000)
 }
 
