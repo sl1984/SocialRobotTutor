@@ -10,7 +10,7 @@ val intro = utterance {
     +"I am Furhat, your tutor."
     +Gestures.Smile
     +delay(1000)
-    +"In this five minute session, we will learn about how force works."
+    +"In this five minute tutorial, we will learn about how force works."
     +Gestures.Smile
     +delay(2000)
 }
