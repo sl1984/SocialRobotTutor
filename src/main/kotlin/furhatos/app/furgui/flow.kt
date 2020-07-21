@@ -1,5 +1,6 @@
 package furhatos.app.furgui
 
+import furhatos.app.furgui.lecture.*
 import furhatos.event.senses.SenseSkillGUIConnected
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
@@ -342,76 +343,219 @@ val QuizQuestion = state(Interaction) {
 val Lecture = state(Interaction) {
     onEntry {
         println("Lecture state")
-        val introscreen = listOf("intro.gif")
+
         send(ScreenDelivery(screen = introscreen))
-
-        val intro = utterance {
-            +"Hello. Welcome to the session on Force and Motion."
-            +Gestures.Smile
-            +delay(1000)
-            +"I am Furhat, your tutor"
-            +delay(2000)
-        }
-
         furhat.say(intro)
 
-        val carimg = listOf("movingcar.gif")
-        send(ScreenDelivery(screen = carimg))
+        //send(ScreenDelivery(screen = carimg))
+        //furhat.say(session_car)
 
+        // send agenda
+        //send(ScreenDelivery(screen = agendaimg))
+        //furhat.say(agenda)
 
-        val session1_1 = utterance {
-            +"Have you ever wondered about the science behind how things move? "
-            +delay(1000)
-            +"We often use Newtons laws of motion to describe force and its resultant acceleration"
-            +" on just about any everyday object, such as a moving car, free falling object or the "
-            +"operation of an elevator."
-            +delay(2000)
-        }
+        call(LectureQuestionOne)
+        call(BoxOnTableExampleConfirmSecondTime)
 
-        furhat.say(session1_1)
+        send(ScreenDelivery(screen = screen12))
+        furhat.say(session_screen12)
 
-        // send screen 2
-        val agendaimg = listOf("agenda.png")
-        send(ScreenDelivery(screen = agendaimg))
+        call(LectureQuiz)
 
-        val agenda = utterance {
-            +Gestures.Smile
-            +"In this 15 minute tutorial session, we will learn about how newton's laws work."
-            +delay(1000)
-            +"After this session, you should be able to understand and apply Newton’s first and second laws of motion."
-            +delay(3000)
-        }
+        terminate()
 
-        furhat.say(agenda)
+    }
 
-        call(LectureFirstLaw)
+}
 
-        furhat.ask("How is it going so far? Shall we move onto the Second Law of Motion?", timeout = 3000)
+val LectureQuestionOne = state(Interaction) {
 
-        //terminate()
+    onEntry {
+        println("Lecture - QuestionOne")
+
+        send(ScreenDelivery(screen = screen1))
+        furhat.ask(session_screen1, timeout = 10000)
 
     }
 
     onResponse<No> {
-        println("Shall we move onto the Second Law of Motion? - NO")
-        furhat.say("Okay! The Lecture session ends here. ")
+        furhat.say(session_screen1_no)
         terminate()
     }
 
     onResponse<Yes> {
-        println("Shall we move onto the Second Law of Motion? - YES")
-        furhat.say("Okay! Moving onto Newton's Second Law of Motion")
-        call(LectureSecondLaw)
+        furhat.say(session_screen1_yes)
+        call(TugOfWarExample)
         terminate()
     }
 
     onNoResponse { // Catches silence
-        println("Shall we move onto the Second Law of Motion? - NO Response")
-        furhat.say("Okay! Moving onto Newton's Second Law of Motion")
-        call(LectureSecondLaw)
+        furhat.ask("I didn't hear anything", timeout = 10000)
+    }
+
+}
+
+val TugOfWarExample = state(Interaction) {
+
+    onEntry {
+        println("Lecture - TugOfWarExample")
+
+        send(ScreenDelivery(screen = screen2))
+        furhat.say(session_screen2)
+
+        send(ScreenDelivery(screen = screen3))
+        furhat.say(session_screen3)
+
+        send(ScreenDelivery(screen = screen4))
+        furhat.say(session_screen4)
+
+        send(ScreenDelivery(screen = screen4a))
+        furhat.say(session_screen4a)
+
+        furhat.ask(session_screen4a_review, timeout = 10000)
+    }
+
+    onResponse<No> {
+        furhat.say("Great! Let's move on to the next slide")
         terminate()
     }
+
+    onResponse<Yes> {
+        furhat.say("Okay!")
+        call(BoxOnTableExample)
+        terminate()
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I didn't hear anything", timeout = 10000)
+    }
+
 }
+
+val BoxOnTableExample = state(Interaction) {
+
+    onEntry {
+        println("Lecture - BoxOnTableExample")
+
+        send(ScreenDelivery(screen = screen5))
+        furhat.say(session_screen5)
+
+        call(BoxOnTableExampleConfirm)
+
+        send(ScreenDelivery(screen = screen7))
+        furhat.say(session_screen7)
+
+        send(ScreenDelivery(screen = screen8))
+        furhat.say(session_screen8)
+
+        send(ScreenDelivery(screen = screen9))
+        furhat.say(session_screen9)
+
+        send(ScreenDelivery(screen = screen10))
+        furhat.say(session_screen10)
+
+        terminate()
+
+    }
+
+}
+
+val BoxOnTableExampleConfirm = state(Interaction) {
+
+    onEntry {
+        println("Lecture - BoxOnTableExampleConfirm")
+
+        send(ScreenDelivery(screen = screen6))
+        furhat.say(session_screen6)
+
+        furhat.ask("Does this sound ok?", timeout = 10000)
+
+    }
+
+    onResponse<No> {
+        furhat.say("Don't worry. I will explain in detail")
+        terminate()
+    }
+
+    onResponse<Yes> {
+        furhat.say("Great! Let's move on to the next slide")
+        terminate()
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I didn't hear anything", timeout = 10000)
+    }
+
+}
+
+val BoxOnTableExampleConfirmSecondTime = state(Interaction) {
+
+    onEntry {
+        println("Lecture - BoxOnTableExampleConfirmSecondTime")
+
+        send(ScreenDelivery(screen = screen11))
+        furhat.ask(session_screen11, timeout = 10000)
+
+    }
+
+    onResponse<No> {
+        furhat.say("Don't worry. I will explain in detail")
+        terminate()
+    }
+
+    onResponse<Yes> {
+        furhat.say("Ok, moving on with forces")
+        terminate()
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("I didn't hear anything", timeout = 10000)
+    }
+
+}
+
+val LectureQuiz = state(Interaction) {
+
+    onEntry {
+        println("Lecture - LectureQuiz")
+
+        send(ScreenDelivery(screen = quiz_screen1))
+        furhat.ask(session_quiz_screen1, timeout = 10000)
+
+    }
+
+    //onTime(delay=40000) {
+    //    furhat.ask("Do you need any help?", timeout = 10000)
+    //}
+
+
+    onResponse<No> {
+        furhat.ask("Okay. Waiting for you to answer!", timeout = 10000)
+    }
+
+    onResponse<Yes> {
+        send(ScreenDelivery(screen = quiz_screen2))
+        furhat.say(session_quiz_screen2)
+        furhat.ask("Hope that helps. Try to answer now!", timeout = 10000)
+    }
+
+    onNoResponse { // Catches silence
+        furhat.ask("Do you need any help?", timeout = 5000)
+    }
+
+    onResponse<True> {
+        furhat.say("I am afraid. That's the wrong answer.")
+        terminate()
+    }
+
+    onResponse<False> {
+        send(ScreenDelivery(screen = quiz_screen3))
+        furhat.say(session_quiz_screen3)
+        terminate()
+    }
+
+}
+
 
 val LectureFirstLaw = state(Interaction) {
 
@@ -426,457 +570,132 @@ val LectureFirstLaw = state(Interaction) {
         furhat.say(session1_2)
 
         // send first law screen 1
-        val fl1a = listOf("fl1a.gif")
         send(ScreenDelivery(screen = fl1a))
-
-        val session_fl1a = utterance {
-            +"So, lets look at what Newtons Law states."
-            +delay(1000)
-            +glance(Location.RIGHT, 5000)
-            +"According to Newton’s First Law, "
-            +"an object remains in the same state of motion, unless a resultant force acts on it."
-            +delay(2000)
-        }
-
         furhat.say(session_fl1a)
 
-        val fl1b = listOf("fl1b.gif")
         send(ScreenDelivery(screen = fl1b))
-
-        val session_fl1b = utterance {
-            +"First of all, we need to understand what a state of motion is. It could mean one of two things."
-            +delay(2000)
-        }
-
         furhat.say(session_fl1b)
 
-        val fl1c = listOf("fl1c.gif")
         send(ScreenDelivery(screen = fl1c))
-
-        val session_fl1c = utterance {
-            +" A state of motion could be something as simple as being stationary, like an object placed on a ground."
-            +delay(1000)
-            +" Or, it could mean that the object, is moving at a constant velocity. By constant velocity, "
-            +"we are talking about the object, moving at the same speed, and, in the same direction.  "
-            +delay(1000)
-            +"An example of constant velocity, would be, that of a cyclist  moving at a 2 metres per second, "
-            +"in the same direction."
-            +delay(2000)
-        }
-
         furhat.say(session_fl1c)
 
-        val fl1d = listOf("fl1d.gif")
         send(ScreenDelivery(screen = fl1d))
-
-        val session_fl1d = utterance {
-            +"Secondly, we also need to understand what resultant force means. There are multiple forces that can act on an object such as forces of friction, tension, thrust etc."
-            +delay(1000)
-            +"If we take the sum of all the forces acting on a body, we will get the net force or resultant force."
-            +"If this net force is zero, then we  say that the forces are balanced."
-            +delay(1000)
-            +"On the other hand, if the sum of all the forces acting on an object are not equal to zero, "
-            +"then we say that the forces are unbalanced. "
-            +delay(2000)
-        }
-
         furhat.say(session_fl1d)
 
-        val fl1e = listOf("fl1e.gif")
         send(ScreenDelivery(screen = fl1e))
-
-        val session_fl1e = utterance {
-            +"If the resultant force acting on a stationary object is zero, then the object will remain stationary."
-            +delay(1000)
-            +"For example, this is a book placed on a table. The table exerts an upward push towards the book. "
-            +"Its weight is balanced by the equal and opposite reaction force."
-            +delay(1000)
-            +"Since both these forces balance each other, the net resultant force is zero. "
-            +"Therefore, the book will continue to be stationary."
-            +delay(2000)
-        }
-
         furhat.say(session_fl1e)
 
-        val fl1f = listOf("fl1f.gif")
         send(ScreenDelivery(screen = fl1f))
-
-        val session_fl1f = utterance {
-            +"Similarly, if the resultant force acting on a moving object is zero, then the object will "
-            +"continue moving in the same direction with the same speed, or in other words, with the same velocity."
-            +delay(1000)
-            +"This is an elevator, moving upwards with constant velocity. Can you locate the two forces acting on this elevator?"
-            +delay(1000)
-            +"The force of gravity is acting downwards. There is also a tension force from the cable acting upwards."
-            +delay(1000)
-            +"When these two forces are equal and acting in opposite direction,"
-            +"the elevator moves  with constant velocity."
-            +delay(2000)
-        }
-
         furhat.say(session_fl1f)
 
         // First Law Stationary Object - Zero Force
-        val fl4 = listOf("fl4.gif")
         send(ScreenDelivery(screen = fl4))
-
-        val session_fl4 = utterance {
-            +"Let’s elaborate it a little more."
-            +glance(Location.RIGHT, 3000)
-            +"Consider this object. There are no forces acting on it currently and therefore it is stationary."
-            +delay(2000)
-        }
-
         furhat.say(session_fl4)
 
-        // First Law Stationary Object - Zero Force
-        val fl5 = listOf("fl5.gif")
         send(ScreenDelivery(screen = fl5))
-
-        val session_fl5 = utterance {
-            +"Now, imagine there a 50 Newton force acting on its right, and a 50 Newton Force acting on its left."
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"In this case, since the two forces exerted on the red object, are equal and opposite in direction,  "
-            +"the forces are said to be balanced. So, then this object continues to remains stationary. "
-            +delay(2000)
-        }
-
         furhat.say(session_fl5)
 
         // First Law Moving Object
-        val fl6 = listOf("fl6.gif")
         send(ScreenDelivery(screen = fl6))
-
-        val session_fl6 = utterance {
-            +"What if the object was moving at a constant velocity, say two meters per second?"
-            +delay(2000)
-        }
-
         furhat.say(session_fl6)
 
         // First Law Moving Object
-        val fl7 = listOf("fl7.gif")
         send(ScreenDelivery(screen = fl7))
-
-        val session_fl7 = utterance {
-            +"Now we apply a 50 newton force on its right and another 50 newton force on its left.  "
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"Once again the forces are balanced and the resultant force is zero. So, the object continues"
-            +" to maintain its state."
-            +delay(2000)
-        }
-
         furhat.say(session_fl7)
 
         // First Law Moving Object
-        val fl8 = listOf("fl8.gif")
         send(ScreenDelivery(screen = fl8))
-
-        val session_fl8 = utterance {
-            +"It will carry on moving with the same speed of two meters per second in the same direction"
-            +delay(2000)
-        }
-
         furhat.say(session_fl8)
 
         // First Law - Moving Car
-        val fl9a = listOf("fl9a.gif")
         send(ScreenDelivery(screen = fl9a))
-
-        val session_fl9a = utterance {
-            +"Here, is an example, of the forces acting on a stationary car."
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"As you can see, the only two forces acting on this car, is the force of gravity downwards, "
-            +delay(1000)
-            +"and the equal and opposite reactive normal force upwards. "
-            +delay(1000)
-            +"Both these forces, are equal and opposite and  hence, balance each other, creating a zero resultant force."
-            +"Thus, the car will continue to remain stationary. "
-            +delay(2000)
-        }
-
         furhat.say(session_fl9a)
 
         // First Law - Moving Car
-        val fl9 = listOf("fl9.gif")
         send(ScreenDelivery(screen = fl9))
-
-        val session_fl9 = utterance {
-            +"Let’s take a look at a car moving at a constant velocity of ten meters per second."
-            +glance(Location.RIGHT, 8000)
-            +delay(1000)
-            +"It has two additional forces, compared to that of the stationary car. "
-            +delay(1000)
-            +"You can see that the driving force of the engine is acting towards the right. Because the car is moving "
-            +"at a constant velocity, there should be an equal force acting in the opposite direction. "
-            +"This is a natural force that occurs called the resistive force. It includes both friction "
-            +"with the air and friction with the road."
-            +delay(2000)
-        }
-
         furhat.say(session_fl9)
 
-        val fl10 = listOf("fl10.gif")
         send(ScreenDelivery(screen = fl10))
-
-        val session_fl10 = utterance {
-            +"So, lets summarize Newton’s first law . An object at rest remains at rest, or if in motion, remains in "
-            +"motion at a constant velocity unless acted on by a resultant force."
-            +delay(3000)
-        }
-
         furhat.say(session_fl10)
 
-
         // First Law - Non-Zero
-        val fl11 = listOf("fl11.gif")
         send(ScreenDelivery(screen = fl11))
-
-        val session_fl11 = utterance {
-            +"From Newton’s first law, we can infer that  the velocity of an object will only change if a resultant"
-            +" force is acting on it. Look at the figure. "
-            +glance(Location.RIGHT, 8000)
-            +delay(1000)
-            +"When two forces acting on an object are not equal in size, we say that they are unbalanced forces. "
-            +"The overall force acting on the object is called  the resultant force. "
-            +delay(1000)
-            +"If the forces are balanced, the resultant force is zero."
-            +" In the slides to follow, we will be discussing how resultant forces affects the motion of an object."
-            +delay(3000)
-        }
-
         furhat.say(session_fl11)
 
         // First Law - Non-Zero
-        val fl12a = listOf("fl12a.gif")
         send(ScreenDelivery(screen = fl12a))
-
-        val session_fl12a = utterance {
-            +"Let’s look at an example. This is a stationary object."
-            +delay(2000)
-        }
-
         furhat.say(session_fl12a)
 
         // First Law - Non-Zero
-        val fl12 = listOf("fl12.gif")
         send(ScreenDelivery(screen = fl12))
-
-        val session_fl12 = utterance {
-            +"If you apply  fifteen newton force to this object, towards the right direction "
-            +delay(2000)
-        }
-
         furhat.say(session_fl12)
 
         // First Law - Non-Zero
-        val fl13 = listOf("fl13.gif")
         send(ScreenDelivery(screen = fl13))
-
-        val session_fl13 = utterance {
-            +"and five newton to the left direction, then it will result in an unbalanced force that leads to "
-            +"a net resultant force acting on the object"
-            +delay(2000)
-        }
-
         furhat.say(session_fl13)
 
         // First Law - Non-Zero
-        val fl14 = listOf("fl14.gif")
         send(ScreenDelivery(screen = fl14))
-
-        val session_fl14 = utterance {
-            +glance(Location.RIGHT, 5000)
-            +"This resultant force causes the object to accelerate to the right. "
-            +delay(1000)
-            "That was pretty straight forward, since the object was initially in stationary position. "
-            +"Now, depending on the initial state of the object, the resultant "
-            +"force can cause different things happening to the object"
-            +delay(3000)
-        }
-
         furhat.say(session_fl14)
 
         // First Law - Non-Zero
-        val fl15 = listOf("fl15.gif")
         send(ScreenDelivery(screen = fl15))
-
-        val session_fl15 = utterance {
-            +"For example, if the object was already moving in the right direction at two meters per second "
-            +delay(1000)
-        }
-
         furhat.say(session_fl15)
 
         // First Law - Non-Zero
-        val fl16 = listOf("fl16.gif")
         send(ScreenDelivery(screen = fl16))
-
-        val session_fl16 = utterance {
-            +"Then a resultant force applied on it towards the right direction"
-            +delay(1000)
-        }
-
         furhat.say(session_fl16)
 
         // First Law - Non-Zero
-        val fl17 = listOf("fl17.gif")
         send(ScreenDelivery(screen = fl17))
-
-        val session_fl17 = utterance {
-            +"will cause it to, speed up, or, in other words, accelerate, towards the right"
-            +delay(3000)
-        }
-
         furhat.say(session_fl17)
 
         // First Law - Non-Zero
-        val fl18 = listOf("fl18.gif")
         send(ScreenDelivery(screen = fl18))
-
-        val session_fl18 = utterance {
-            +"What if this object was moving towards the left at two meters per second?"
-            +delay(1000)
-        }
-
         furhat.say(session_fl18)
 
         // First Law - Non-Zero
-        val fl19 = listOf("fl19.gif")
         send(ScreenDelivery(screen = fl19))
-
-        val session_fl19 = utterance {
-            +"Now, if you add a resultant force in the opposite direction towards the right."
-            +delay(1000)
-        }
-
         furhat.say(session_fl19)
 
         // First Law - Non-Zero
-        val fl20 = listOf("fl20.gif")
         send(ScreenDelivery(screen = fl20))
-
-        val session_fl20 = utterance {
-            +glance(Location.RIGHT, 3000)
-            +"Then, the object will slow down to, say, one meter per second."
-            +delay(3000)
-        }
-
         furhat.say(session_fl20)
 
         // First Law - Non-Zero
-        val fl21 = listOf("fl21.gif")
         send(ScreenDelivery(screen = fl21))
-
-        val session_fl21 = utterance {
-            +"What if the object was moving towards the left slowly?"
-            +delay(1000)
-        }
-
         furhat.say(session_fl21)
 
         // First Law - Non-Zero
-        val fl22 = listOf("fl22.gif")
         send(ScreenDelivery(screen = fl22))
-
-        val session_fl22 = utterance {
-            +"Then, a resultant force acting on the opposite direction"
-            +delay(1000)
-        }
-
         furhat.say(session_fl22)
 
         // First Law - Non-Zero
-        val fl23 = listOf("fl23.gif")
         send(ScreenDelivery(screen = fl23))
-
-        val session_fl23 = utterance {
-            +"may cause it to stop."
-            +delay(3000)
-        }
-
         furhat.say(session_fl23)
 
         // First Law - Non-Zero
-        val fl24 = listOf("fl24.gif")
         send(ScreenDelivery(screen = fl24))
-
-        val session_fl24 = utterance {
-            +"In all the cases we discussed so far, if you notice, the acceleration caused by the unbalanced force,"
-            +" resulted in the object, to either start moving, speed up, slow down or stop."
-            +delay(2000)
-        }
-
         furhat.say(session_fl24)
 
         // First Law - Non-Zero
-        val fl25 = listOf("fl25.gif")
         send(ScreenDelivery(screen = fl25))
-
-        val session_fl25 = utterance {
-            +"But what if the acceleration caused by the unbalanced force"
-            +"only made the object change its direction and continue in the same speed."
-            +delay(1000)
-        }
-
         furhat.say(session_fl25)
 
         // First Law - Non-Zero
-        val fl26 = listOf("fl26.gif")
         send(ScreenDelivery(screen = fl26))
-
-        val session_fl26 = utterance {
-            +glance(Location.RIGHT, 5000)
-            +"The object was initially moving to the right direction at two meters per second. A resultant force is"
-            +" acting on it, in the upward direction. The object changes its direction, but continues with the same"
-            +" speed of two meters per second"
-            +delay(3000)
-        }
-
         furhat.say(session_fl26)
 
-
         // send screen
-        val fl_text1 = listOf("fl_text1.gif")
         send(ScreenDelivery(screen = fl_text1))
-
-        val session_fl_text1 = utterance {
-            +"Technically, acceleration is defined, as the change in velocity, over time."
-            +delay(2000)
-        }
-
         furhat.say(session_fl_text1)
 
         // send screen
-        val fl_text2 = listOf("fl_text2.gif")
         send(ScreenDelivery(screen = fl_text2))
-
-        val session_fl_text2 = utterance {
-            +glance(Location.RIGHT, 3000)
-            +"Velocity is determined by, both speed and direction. So, any change in direction of the object, "
-            +"also changes the velocity, and hence, causes acceleration."
-            +delay(3000)
-        }
-
         furhat.say(session_fl_text2)
 
         // send session_fl_planet - Earth moving around sun
-        val fl_planet = listOf("fl_planet.gif")
         send(ScreenDelivery(screen = fl_planet))
-
-        val session_fl_planet = utterance {
-            +"A good example of this is circular motion. "
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"Consider the earth, revolving around the sun in a circular motion."
-            +"Even though, the speed may remain constant, but the direction keeps"
-            +" changing. Therefore, the velocity keeps changing and causes it to accelerate."
-            +delay(3000)
-        }
-
         furhat.say(session_fl_planet)
 
         call(FirstLawQuestionOne)
@@ -894,20 +713,9 @@ val FirstLawQuestionOne = state(Interaction) {
     onEntry {
         println("Lecture - FirstLawQuestionOne")
 
-        //
-        val fl_question1 = listOf("fl_question1.gif")
+        //first law question screen
         send(ScreenDelivery(screen = fl_question1))
-
-        val session2_fl_question1 = utterance {
-            +"Here is your first question related to Newton's First Law of Motion."
-            +delay(1000)
-            +"You need to tell whether the following statement is true of false."
-            +delay(2000)
-            +"If the net force on a body is zero, then its velocity will not change"
-        }
-
-        furhat.ask(session2_fl_question1, timeout = 20000)
-
+        furhat.ask(session_fl_question1, timeout = 20000)
 
     }
 
@@ -917,54 +725,26 @@ val FirstLawQuestionOne = state(Interaction) {
 
 
     onResponse<No> {
-        println("FirstLawQuestionOne state - NO")
         furhat.ask("Okay. Waiting for you to answer!", timeout = 30000)
     }
 
     onResponse<Yes> {
-        println("FirstLawQuestionOne state - YES")
-        val session2_fl_question1_tip = utterance {
-            +"According to Newton’s First Law, an object remains in the same state of motion unless"
-            +"a resultant force acts on it."
-            +Gestures.Smile
-            +delay(2000)
-        }
-        furhat.say(session2_fl_question1_tip)
+        furhat.say(session_fl_question1_tip)
         furhat.ask("Hope that helps. Try to answer now!", timeout = 30000)
     }
 
     onNoResponse { // Catches silence
-        println("FirstLawQuestionOne state - NO Response")
         furhat.say("I didn't hear anything")
         furhat.ask("Do you need any help?", timeout = 5000)
     }
 
     onResponse<True> {
-        println("FirstLawQuestionOne state - True")
-        val session2_fl_question1_correct = utterance {
-            +Gestures.BigSmile
-            +"Well done that's absolutely correct. In fact it's another way to describe Newton's First Law of Motion"
-            +delay(3000)
-        }
-
-        furhat.say(session2_fl_question1_correct)
-
+        furhat.say(session_fl_question1_correct)
         terminate()
     }
 
     onResponse<False> {
-        println("FirstLawQuestionOne state - False")
-        val session2_fl_question1_tip = utterance {
-            +Gestures.ExpressSad
-            +"I'm afraid that's not the correct answer. A net resultant force is required in order to change the "
-            +"velocity of an object"
-            +delay(2000)
-            +"According to Newton’s First Law, an object remains in the same state of motion unless"
-            +"a resultant force acts on it."
-            +delay(3000)
-        }
-        furhat.say(session2_fl_question1_tip)
-
+        furhat.say(session_fl_question1_wrong)
         terminate()
     }
 
@@ -975,112 +755,38 @@ val FirstLawQuestionTwo = state(Interaction) {
     onEntry {
         println("Lecture - FirstLawQuestionTwo")
 
-        //
-        val fl_question2 = listOf("fl_question2.gif")
         send(ScreenDelivery(screen = fl_question2))
-
-        val session2_fl_question2 = utterance {
-            +"Let’s move on to another question."
-            +delay(1000)
-            +"Is the following statement true or false. "
-            +delay(2000)
-            +"Objects in orbit around the Earth, like a satellite, must have a net force acting on them."
-        }
-
-        furhat.ask(session2_fl_question2, timeout = 15000)
+        furhat.ask(session_fl_question2, timeout = 15000)
 
     }
 
-    //onTime(delay=40000) {
-    //   furhat.ask("Do you need any help?", timeout = 10000)
-    //}
-
     onResponse<No> {
-        //println("FirstLawQuestionTwo state - NO")
         furhat.ask("Okay. Waiting for you to answer!", timeout = 30000)
     }
 
     onResponse<Yes> {
-        println("FirstLawQuestionTwo state - YES")
-        val session2_fl_question2_tip = utterance {
-            +"An object in orbit may have a constant speed, but its direction is constantly changing as it"
-            +"moves in a circle and, thus, its velocity is also changing."
-            +delay(2000)
-        }
-        furhat.say(session2_fl_question2_tip)
+        furhat.say(session_fl_question2_tip)
         furhat.ask("Hope that helps. Try to answer now!", timeout = 30000)
     }
 
     onNoResponse { // Catches silence
-        println("FirstLawQuestionTwo state - NO Response")
         furhat.say("I didn't hear anything")
         furhat.ask("Do you need any help?", timeout = 10000)
     }
 
     onResponse<True> {
-        println("FirstLawQuestionTwo state - True")
-        val session2_fl_question1_correct = utterance {
-            +Gestures.BigSmile
-            +"You’re doing really well! That is right"
-            +delay(3000)
-        }
+        furhat.say(session_fl_question2_correct)
 
-        furhat.say(session2_fl_question1_correct)
-
-        //
-        val fl_question2_ans = listOf("fl_question2_ans.gif")
         send(ScreenDelivery(screen = fl_question2_ans))
-
-        val session_fl_question2_ans = utterance {
-            +"A good example of this is circular motion. "
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"An object with no net forces acting on it would not have a change in velocity. "
-            +"If it is stationary, it would stay stationary. If it is in motion, it will stay in motion with "
-            +"a fixed velocity, moving in a straight line. This comes directly out of Newton's First Law of Motion."
-            +delay(1000)
-            +"An object in orbit may have a constant speed, but its direction is constantly changing as it "
-            +"moves in a circle and, thus, its velocity is also changing. Remember, velocity takes into"
-            +" consideration speed and direction. Therefore, there must be a net force acting on it."
-            +" This is the net force of Earth's gravity acting on the object."
-            +delay(3000)
-        }
-
         furhat.say(session_fl_question2_ans)
-
         terminate()
     }
 
     onResponse<False> {
-        println("FirstLawQuestionOne state - False")
-        val session2_fl_question2_tip = utterance {
-            +Gestures.ExpressSad
-            +"I suppose, that wasn’t the correct answer."
-            +delay(2000)
-        }
-        furhat.say(session2_fl_question2_tip)
+        furhat.say(session_fl_question2_wrong)
 
-        //
-        val fl_question2_ans = listOf("fl_question2_ans.gif")
         send(ScreenDelivery(screen = fl_question2_ans))
-
-        val session_fl_question2_ans = utterance {
-            +"A good example of this is circular motion. "
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"An object with no net forces acting on it would not have a change in velocity. "
-            +"If it is stationary, it would stay stationary. If it is in motion, it will stay in motion with "
-            +"a fixed velocity ,moving in a straight line. This comes directly out of Newton's First Law of Motion."
-            +delay(1000)
-            +"An object in orbit may have a constant speed, but its direction is constantly changing as it "
-            +"moves in a circle and, thus, its velocity is also changing . Remember, velocity takes into"
-            +" consideration speed and direction. Therefore, there must be a net force acting on it."
-            +" This is the net force of Earth's gravity acting on the object."
-            +delay(3000)
-        }
-
         furhat.say(session_fl_question2_ans)
-
         terminate()
     }
 
@@ -1092,177 +798,46 @@ val LectureSecondLaw = state(Interaction) {
         println("Lecture - Newton's Second Law of Motion")
 
         //
-        val sl1 = listOf("sl1.gif")
         send(ScreenDelivery(screen = sl1))
-
-        val session2_sl1 = utterance {
-            +"We now know that an unbalanced  force will lead to a non resultant force acting on an object, "
-            +"which will in turn cause the object to accelerate."
-            +delay(2000)
-        }
-
         furhat.say(session2_sl1)
 
         //
-        val sl2 = listOf("sl2.gif")
         send(ScreenDelivery(screen = sl2))
-
-        val session2_sl2 = utterance {
-            +"So, a natural question arises? How much does the object accelerate. Well, this is dependant on two "
-            +"factors , the amount of resultant force and the mass of the object"
-            +delay(2000)
-        }
-
         furhat.say(session2_sl2)
 
         //
-        val sl3 = listOf("sl3.gif")
         send(ScreenDelivery(screen = sl3))
-
-        val session2_sl3 = utterance {
-            +"We learnt in newton’s first law that a resultant force is required to bring about an acceleration on an "
-            +"object. The net force needed is proportional to the mass of the object, that you are trying to accelerate."
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"These observations can be expressed using Newton’s second Law. Newton’s second Law"
-            +" states that the resultant force is equal to mass times acceleration.  Now let’s try and understand"
-            +" what we learnt with an example."
-            +delay(2000)
-        }
-
         furhat.say(session2_sl3)
 
         //
-        val sl4 = listOf("sl4.gif")
         send(ScreenDelivery(screen = sl4))
-
-        val session2_sl4 = utterance {
-            +"The picture shows two objects of equal masses."
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +" On the first object, we apply a force of 50 newton, "
-            +"and on the second object a 25 newton force is  applied. Both objects are experiencing a resultant"
-            +" force, can you guess which object will experience an increased acceleration."
-            +delay(2000)
-        }
-
         furhat.say(session2_sl4)
 
         //
-        val sl5 = listOf("sl5.gif")
         send(ScreenDelivery(screen = sl5))
-
-        val session2_sl5 = utterance {
-            +"From Newton’s second law, we now know that the acceleration is proportional to the resultant force acting"
-            +" on the object.  What does this mean?"
-            +delay(1000)
-            +" It means that , if we have a greater force, then we have a greater acceleration."
-            +"So the first object will experience twice the amount of acceleration of 2 meters per"
-            +" second square, as compared to the second object which accelerates at 1 meter per second square."
-            +delay(2000)
-        }
-
         furhat.say(session2_sl5)
 
         //
-        val sl6 = listOf("sl6.gif")
         send(ScreenDelivery(screen = sl6))
-
-        val session2_sl6 = utterance {
-            +"Now, lets try to understand the relationship between mass and acceleration. In this screen, you can"
-            +" observe two objects. "
-            +glance(Location.RIGHT, 5000)
-            +delay(1000)
-            +"Both of them experience the same amount of force. The top object has a mass"
-            +" of 25 kilograms, where as the bottom object has a mass of 10 kilogram. Which object do you think will"
-            +" experience an increased acceleration?"
-            +delay(2000)
-        }
-
         furhat.say(session2_sl6)
 
         //
-        val sl7 = listOf("sl7.gif")
         send(ScreenDelivery(screen = sl7))
-
-        val session2_sl7 = utterance {
-            +"From Newton’s second law, we now know that , the acceleration is inversely proportional to the mass of the object."
-            +delay(1000)
-            +" In other words, if the mass is larger, the acceleration will be smaller. So, in this "
-            +"case, the bottom object will experience twice the acceleration experienced by the top object."
-            +delay(2000)
-        }
-
         furhat.say(session2_sl7)
 
         //
-        val sl8 = listOf("sl8.gif")
         send(ScreenDelivery(screen = sl8))
-
-        val session2_sl8 = utterance {
-            +"As seen in Newtons second law, In order to calculate the force required to accelerate an object, we use"
-            +" the equation, force equals mass times acceleration, where force is measured in newtons, mass in "
-            +"kilograms and acceleration in meters per second square. "
-            +delay(1000)
-            +"For example, we would have to exert 50 newton"
-            +" force in order for an object of 25 kilograms to experience an acceleration of 2 meters per second square"
-            +delay(3000)
-        }
-
         furhat.say(session2_sl8)
 
-        val fl27 = listOf("fl27.gif")
         send(ScreenDelivery(screen = fl27))
-
-        val session_fl27 = utterance {
-            +"Now, lets take some time to reflect upon what we learnt so far."
-            +glance(Location.RIGHT, 8000)
-            +delay(1000)
-            +"As you can see in the diagram, when forces are balanced, the resultant force is zero."
-            +delay(1000)
-            +"Therefore, an object maintains its state of motion.  Objects at rest, will continue to be at rest."
-            +delay(1000)
-            +"Similarly, objects in motion will carry on with constant motion."
-            +delay(10000)
-        }
-
         furhat.say(session_fl27)
 
-        val fl28 = listOf("fl28.gif")
         send(ScreenDelivery(screen = fl28))
-
-        val session_fl28 = utterance {
-            +"On the other hand, when forces are unbalanced, there is a resultant force"
-            +glance(Location.RIGHT, 8000)
-            +delay(1000)
-            +"This resultant force causes acceleration."
-            +delay(1000)
-            +"If the objects are at rest, they may start moving."
-            +delay(1000)
-            +"If the objects are already in motion, they may speed up, slow down, stop or change direction based on the magnitude and direction of the resultant force. "
-            +delay(1000)
-            +"The acceleration produced is directly proportional to the force applied and inversely proportional to the mass of the object. "
-            +delay(10000)
-        }
-
         furhat.say(session_fl28)
 
         //
-        val thanks = listOf("thanks.gif")
         send(ScreenDelivery(screen = thanks))
-
-        val session2_thanks = utterance {
-            +"That's the end of this lecture series on Newton's Laws of Motion"
-            +"Hope you have enjoyed this session."
-            +delay(1000)
-            +"When you are ready, click the Quiz button to launch the practice tests."
-            +delay(1000)
-            +"We can make it more interactive and fun experience."
-            +delay(2000)
-        }
-
         furhat.say(session2_thanks)
-
 
         terminate()
 
