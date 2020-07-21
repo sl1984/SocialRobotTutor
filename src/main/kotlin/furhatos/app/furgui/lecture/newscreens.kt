@@ -217,7 +217,7 @@ val session_quiz_screen1 = utterance {
     +glance(Location.RIGHT)
     +"Now, can you go ahead and try to answer this question?"
     +delay(1000)
-    +"If an object is not moving, we can conclude that there are no forces acting it."
+    +"If an object is not moving, we can conclude that there are no forces acting on it."
     +delay(1000)
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
@@ -244,6 +244,8 @@ val session_quiz_screen3 = utterance {
     +delay(1000)
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
+    +Gestures.Nod(0.6, 2.0)
+    +delay(3000)
     +"In fact, we could have said its true, it if  balanced forces was mentioned instead of no forces."
     +delay(1000)
     +"Congratulations, you have successfully completed the session on force and motion."

@@ -8,7 +8,7 @@ val introscreen = listOf("intro.gif")
 val intro = utterance {
     +"Hello. Welcome to the session on Force and Motion."
     +"I am Furhat, your tutor."
-    +Gestures.Smile
+    +Gestures.Smile(1.0, 2.0)
     +delay(1000)
     +"In this five minute tutorial, we will learn about how force works."
     +Gestures.Smile
