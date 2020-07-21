@@ -12,7 +12,7 @@ val intro = utterance {
     +delay(1000)
     +"In this five minute tutorial, we will learn about how force works."
     +Gestures.Smile
-    +delay(2000)
+    +delay(1000)
 }
 
 val carimg = listOf("movingcar.gif")

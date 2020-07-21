@@ -56,8 +56,8 @@ val GUIConnected = state(NoGUI) {
         val data = it.get("data")
         var text = ""
         if (data == "Pre-Test") {
-            val text = ("Welcome! This is the initial test, which will check your knowledge of the subject. Best of Luck")
-            furhat.say(text)
+            val text1 = ("Welcome! This is the initial test, which will check your knowledge of the subject. Best of Luck")
+            furhat.say(text1)
             //call(PreTest)
         } else if (data == "Lecture") {
             call(Lecture)
@@ -478,7 +478,7 @@ val BoxOnTableExampleConfirm = state(Interaction) {
     }
 
     onResponse<Yes> {
-        furhat.say("Great! Let's move on to the next slide")
+        furhat.say(session_screen6_review_yes)
         terminate()
     }
 
@@ -504,7 +504,7 @@ val BoxOnTableExampleConfirmSecondTime = state(Interaction) {
     }
 
     onResponse<Yes> {
-        furhat.say("Ok, moving on with forces")
+        furhat.say(session_screen11_question_yes)
         terminate()
     }
 
@@ -520,7 +520,7 @@ val LectureQuiz = state(Interaction) {
         println("Lecture - LectureQuiz")
 
         send(ScreenDelivery(screen = quiz_screen1))
-        furhat.ask(session_quiz_screen1, timeout = 10000)
+        furhat.ask(session_quiz_screen1, timeout = 5000)
 
     }
 
@@ -540,7 +540,7 @@ val LectureQuiz = state(Interaction) {
     }
 
     onNoResponse { // Catches silence
-        furhat.ask("Do you need any help?", timeout = 5000)
+        furhat.ask(session_quiz_screen1_help, timeout = 10000)
     }
 
     onResponse<True> {
