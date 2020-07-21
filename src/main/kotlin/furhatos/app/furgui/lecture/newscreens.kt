@@ -268,7 +268,7 @@ val session_screen12 = utterance {
     +delay(1000)
     +glance(Location.STRAIGHT_AHEAD)
     +attend(Location.STRAIGHT_AHEAD)
-    +"If the forces are equal, they are balanced. Since the net force is zero,the rope does not move."
+    +"If the forces are equal and opposite, they are balanced.The rope does not move."
     +attend(Location.RIGHT)
     +glance(Location.RIGHT)
     +"On the other hand, if the forces are unbalanced, like shown in the picture, the rope moves in the direction of the larger force. "
