@@ -355,7 +355,7 @@ val Lecture = state(Interaction) {
         //furhat.say(agenda)
 
         call(LectureQuestionOne)
-        call(BoxOnTableExampleConfirmSecondTime)
+        //call(BoxOnTableExampleConfirmSecondTime)
 
         send(ScreenDelivery(screen = screen12))
         furhat.say(session_screen12)
@@ -412,7 +412,8 @@ val TugOfWarExample = state(Interaction) {
         send(ScreenDelivery(screen = screen4a))
         furhat.say(session_screen4a)
 
-        furhat.ask(session_screen4a_review, timeout = 10000)
+        //furhat.ask(session_screen4a_review, timeout = 10000)
+        terminate()
     }
 
     onResponse<No> {
@@ -520,7 +521,7 @@ val LectureQuiz = state(Interaction) {
         println("Lecture - LectureQuiz")
 
         send(ScreenDelivery(screen = quiz_screen1))
-        furhat.ask(session_quiz_screen1, timeout = 5000)
+        furhat.ask(session_quiz_screen1, timeout = 30000)
 
     }
 
